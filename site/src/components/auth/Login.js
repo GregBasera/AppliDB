@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Axios from "axios";
 import { CardContent, CardActions, TextField, Button } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
+import { useHistory } from "react-router-dom";
 import { Auth } from "../../endpoints";
 
 function buildAlert(alert) {
@@ -18,6 +19,7 @@ export default function Login() {
     setLogin({ ...login, [e.target.id]: e.target.value });
   };
 
+  let history = useHistory();
   const handleLogin = () => {
     setAlert({ ...alert, enable: false });
     let isFilledOut = true;
@@ -28,9 +30,11 @@ export default function Login() {
     if (isFilledOut) {
       Axios.post(Auth, login)
         .then((res) => {
-          console.log(res);
+          sessionStorage.setItem("auth", JSON.stringify(res.data));
+          history.push("/home");
         })
         .catch((err) => {
+          console.error(err);
           setAlert({ enable: true, severity: "error", msg: err.response.data.message[0].messages[0].message });
         });
     } else {
@@ -41,8 +45,8 @@ export default function Login() {
   return (
     <React.Fragment>
       <CardContent>
-        <TextField margin="normal" label="Username or Email" id="identifier" variant="outlined" value={login.identifier} onChange={handleChange} fullWidth />
-        <TextField margin="normal" label="Password" id="password" variant="outlined" value={login.password} onChange={handleChange} fullWidth />
+        <TextField type="text" margin="normal" label="Username or Email" id="identifier" variant="outlined" value={login.identifier} onChange={handleChange} fullWidth />
+        <TextField type="password" margin="normal" label="Password" id="password" variant="outlined" value={login.password} onChange={handleChange} fullWidth />
       </CardContent>
 
       {alert.enable ? buildAlert(alert) : null}

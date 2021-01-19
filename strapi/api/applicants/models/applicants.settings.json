@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "applicants",
+  "info": {
+    "name": "Applicants"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "applying_for": {
+      "type": "string",
+      "required": true
+    },
+    "date_applied": {
+      "type": "date",
+      "required": true
+    },
+    "fname": {
+      "type": "string",
+      "required": true
+    },
+    "mname": {
+      "type": "string",
+      "required": true
+    },
+    "lname": {
+      "type": "string",
+      "required": true
+    },
+    "birthdate": {
+      "type": "date",
+      "required": true
+    },
+    "sex": {
+      "type": "enumeration",
+      "enum": [
+        "Male",
+        "Female"
+      ],
+      "required": true
+    },
+    "civil_status": {
+      "type": "enumeration",
+      "enum": [
+        "Single",
+        "Married",
+        "Divorced",
+        "Widowed"
+      ]
+    }
+  }
+}
