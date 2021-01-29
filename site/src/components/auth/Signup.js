@@ -48,10 +48,10 @@ export default function Signup() {
   return (
     <React.Fragment>
       <CardContent>
-        <TextField type="text" margin="normal" label="Username" id="username" variant="outlined" value={signup.username} onChange={handleChange} fullWidth />
-        <TextField type="email" margin="normal" label="Email" id="email" variant="outlined" value={signup.email} onChange={handleChange} fullWidth />
-        <TextField type="password" margin="normal" label="Password" id="password" variant="outlined" value={signup.password} onChange={handleChange} fullWidth />
-        <TextField type="password" margin="normal" label="Confirm Password" id="confirm" variant="outlined" error={confirm} onChange={handleChange} fullWidth />
+        <TextField type="text" margin="dense" label="Username" id="username" variant="outlined" value={signup.username} onChange={handleChange} fullWidth />
+        <TextField type="email" margin="dense" label="Email" id="email" variant="outlined" value={signup.email} onChange={handleChange} fullWidth />
+        <TextField type="password" margin="dense" label="Password" id="password" variant="outlined" value={signup.password} onChange={handleChange} fullWidth />
+        <TextField type="password" margin="dense" label="Confirm Password" id="confirm" variant="outlined" error={confirm} onChange={handleChange} fullWidth />
       </CardContent>
 
       {alert.enable ? buildAlert(alert) : null}

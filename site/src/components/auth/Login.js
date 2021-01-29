@@ -45,8 +45,8 @@ export default function Login() {
   return (
     <React.Fragment>
       <CardContent>
-        <TextField type="text" margin="normal" label="Username or Email" id="identifier" variant="outlined" value={login.identifier} onChange={handleChange} fullWidth />
-        <TextField type="password" margin="normal" label="Password" id="password" variant="outlined" value={login.password} onChange={handleChange} fullWidth />
+        <TextField type="text" margin="dense" label="Username or Email" id="identifier" variant="outlined" value={login.identifier} onChange={handleChange} fullWidth />
+        <TextField type="password" margin="dense" label="Password" id="password" variant="outlined" value={login.password} onChange={handleChange} fullWidth />
       </CardContent>
 
       {alert.enable ? buildAlert(alert) : null}

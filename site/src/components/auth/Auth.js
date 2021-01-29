@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Card, Tabs, Tab } from "@material-ui/core";
+import { Box, Card, Tabs, Tab, CardContent, Button } from "@material-ui/core";
 import logo from "../../tK.png";
 
 import Login from "./Login";
 import Signup from "./Signup";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles({
   bground: {
@@ -31,12 +32,13 @@ export default function Auth() {
   const handleChange = (event, newValue) => {
     setTabs(newValue);
   };
+  const store = JSON.parse(sessionStorage.getItem("auth")) ?? null;
 
   return (
-    <Box className={classes.bground} display="flex" justifyContent="center" alignItems="center" css={{ height: "100vh", backgroundColor: "aquamarine" }}>
+    <Box className={classes.bground} display="flex" justifyContent="center" alignItems="center" css={{ height: "100vh" }}>
       <Card raised style={{ width: "400px" }}>
-        {/* <CardMedia image={logo} title="TK logo" style={{ height: "140" }} /> */}
-        <img mx="auto" height="100" src={logo} alt="TK logo" />
+        {/* <CardMedia image={logo} alt="tK logo" style={{ height: 0, paddingTop: "56.25%" }} /> */}
+        <img height="100" src={logo} alt="tK logo" />
 
         <Tabs value={tabs} onChange={handleChange} indicatorColor="primary" textColor="primary" centered>
           <Tab label="Log In" />
@@ -44,6 +46,26 @@ export default function Auth() {
         </Tabs>
 
         {tabs === 0 ? <Login /> : <Signup />}
+
+        {store ? (
+          <CardContent style={{ paddingTop: "10px", paddingBottom: "10px" }}>
+            <Alert variant="filled" severity="warning">
+              Proceed as
+              <Button size="small" href="/home">
+                {store.user.username}
+              </Button>
+              or
+              <Button
+                size="small"
+                href="/home"
+                onClick={() => {
+                  sessionStorage.removeItem("auth");
+                }}>
+                log-out
+              </Button>
+            </Alert>
+          </CardContent>
+        ) : null}
       </Card>
     </Box>
   );
