@@ -1,40 +1,88 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Axios from "axios";
 import MUIDataTable from "mui-datatables";
+import { TableRow, TableCell, CircularProgress } from "@material-ui/core";
+import { Applicants } from "../../endpoints";
+import AddAppliBtn from "./AddAppliBtn";
 
 export default function HomeTable() {
+  const [data, setData] = useState(null);
+  const auth = JSON.parse(sessionStorage.getItem("auth"));
+
+  useEffect(() => {
+    Axios.get(Applicants, {
+      headers: {
+        Authorization: "Bearer " + auth.jwt,
+      },
+    })
+      .then((res) => {
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return () => {};
+    // eslint-disable-next-line
+  }, []);
+
   const columns = [
     {
-      name: "name",
-      label: "Name",
+      name: "applying_for",
+      label: "Appliying for",
       options: { filter: true, sort: true },
     },
     {
-      name: "company",
-      label: "Company",
+      name: "date_applied",
+      label: "Date Applied",
       options: { filter: true, sort: true },
     },
     {
-      name: "city",
-      label: "City",
+      name: "lname",
+      label: "Lastname",
       options: { filter: true, sort: true },
     },
     {
-      name: "state",
-      label: "State",
+      name: "fname",
+      label: "Firstname",
+      options: { filter: true, sort: true },
+    },
+    {
+      name: "mname",
+      label: "Middlename",
+      options: { filter: true, sort: true },
+    },
+    {
+      name: "birthdate",
+      label: "Birthdate",
+      options: { filter: true, sort: true },
+    },
+    {
+      name: "sex",
+      label: "Sex",
+      options: { filter: true, sort: true },
+    },
+    {
+      name: "civil_status",
+      label: "Civil Status",
       options: { filter: true, sort: true },
     },
   ];
-
-  const data = [
-    { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
-    { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
-    { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
-    { name: "James Houston", company: "Test Corp", city: "Dallas", state: "TX" },
-  ];
-
   const options = {
     // filterType: "checkbox",
+    elevation: 0,
+    expandableRows: true,
+    renderExpandableRow: (rowData, rowMeta) => {
+      const colSpan = rowData.length + 1;
+      return (
+        <TableRow style={{ backgroundColor: "coral" }}>
+          <TableCell colSpan={colSpan}>{JSON.stringify(rowData) + JSON.stringify(rowMeta)}</TableCell>
+        </TableRow>
+      );
+    },
+    customToolbar: () => {
+      return <AddAppliBtn />;
+    },
   };
 
-  return <MUIDataTable title={"Employee List"} data={data} columns={columns} options={options} />;
+  return data ? <MUIDataTable title={"Applicant List"} data={data} columns={columns} options={options} /> : <CircularProgress />;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Box, Card, Tabs, Tab, CardContent, Button } from "@material-ui/core";
+import { Box, Card, Tabs, Tab, CardContent, Link } from "@material-ui/core";
 import logo from "../../tK.png";
 
 import Login from "./Login";
@@ -32,7 +32,11 @@ export default function Auth() {
   const handleChange = (event, newValue) => {
     setTabs(newValue);
   };
-  const store = JSON.parse(sessionStorage.getItem("auth")) ?? null;
+  const [store, setStore] = useState(JSON.parse(sessionStorage.getItem("auth")) ?? null);
+  const removePrevLogin = () => {
+    sessionStorage.removeItem("auth");
+    setStore(JSON.parse(sessionStorage.getItem("auth")) ?? null);
+  };
 
   return (
     <Box className={classes.bground} display="flex" justifyContent="center" alignItems="center" css={{ height: "100vh" }}>
@@ -51,18 +55,11 @@ export default function Auth() {
           <CardContent style={{ paddingTop: "10px", paddingBottom: "10px" }}>
             <Alert variant="filled" severity="warning">
               Proceed as
-              <Button size="small" href="/home">
-                {store.user.username}
-              </Button>
+              <Link href="/home">{" " + store.user.username + " "}</Link>
               or
-              <Button
-                size="small"
-                href="/home"
-                onClick={() => {
-                  sessionStorage.removeItem("auth");
-                }}>
-                log-out
-              </Button>
+              <Link href="#" onClick={removePrevLogin}>
+                {" log-out"}
+              </Link>
             </Alert>
           </CardContent>
         ) : null}

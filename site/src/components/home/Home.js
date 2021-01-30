@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { AppBar, Toolbar, IconButton, Typography, Button } from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import HomeTable from "./HomeTable";
 
 export default function Home() {
   if (sessionStorage.getItem("auth") === null) {
@@ -12,13 +12,11 @@ export default function Home() {
     <div>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6">News</Typography>
-          <Button color="inherit">Login</Button>
+          <Typography variant="h6">LGUTK-HRMO AppliDB</Typography>
         </Toolbar>
       </AppBar>
+
+      <HomeTable />
     </div>
   );
 }
