@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import MUIDataTable from "mui-datatables";
-import { TableRow, TableCell, CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import { Applicants } from "../../endpoints";
 import AddAppliBtn from "./AddAppliBtn";
+import RowExpand from "./RowExpand";
 
 export default function HomeTable() {
   const [data, setData] = useState(null);
@@ -67,17 +68,13 @@ export default function HomeTable() {
       options: { filter: true, sort: true },
     },
   ];
+
   const options = {
     // filterType: "checkbox",
     elevation: 0,
     expandableRows: true,
     renderExpandableRow: (rowData, rowMeta) => {
-      const colSpan = rowData.length + 1;
-      return (
-        <TableRow style={{ backgroundColor: "coral" }}>
-          <TableCell colSpan={colSpan}>{JSON.stringify(rowData) + JSON.stringify(rowMeta)}</TableCell>
-        </TableRow>
-      );
+      return <RowExpand colSpan={rowData.length + 1} rowdata={rowData} />;
     },
     customToolbar: () => {
       return <AddAppliBtn />;
