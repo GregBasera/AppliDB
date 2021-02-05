@@ -1,5 +1,5 @@
 import React from "react";
-import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, Typography, DialogActions, Button } from "@material-ui/core";
+import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 
 export default function AddAppliBtn() {
@@ -21,9 +21,23 @@ export default function AddAppliBtn() {
 
       <Dialog onClose={handleClose} open={open} maxWidth="lg" fullWidth>
         <DialogTitle onClose={handleClose}>Add an Applicant</DialogTitle>
+
         <DialogContent dividers>
-          <Typography gutterBottom>this is body</Typography>
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
+          <TextField label="Outlined" variant="outlined" size="small" fullWidth />
         </DialogContent>
+
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="secondary">
             Close

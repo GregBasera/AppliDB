@@ -28,7 +28,7 @@ export default function HomeTable() {
 
   const columns = [
     {
-      name: "applying_for",
+      name: "appliying_for",
       label: "Appliying for",
       options: { filter: true, sort: true },
     },
@@ -74,7 +74,7 @@ export default function HomeTable() {
     elevation: 0,
     expandableRows: true,
     renderExpandableRow: (rowData, rowMeta) => {
-      return <RowExpand colSpan={rowData.length + 1} rowdata={rowData} />;
+      return <RowExpand colSpan={rowData.length + 1} rowdata={data[rowMeta.dataIndex]} />;
     },
     customToolbar: () => {
       return <AddAppliBtn />;

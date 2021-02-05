@@ -6,7 +6,7 @@ export default function RowExpand(props) {
     <TableRow style={{ backgroundColor: "#eeeeee" }}>
       <TableCell colSpan={props.colSpan}>
         <Card variant="outlined">
-          <CardContent>expand</CardContent>
+          <CardContent>{JSON.stringify(props.rowdata)}</CardContent>
 
           <CardActions>
             <Button>button</Button>
