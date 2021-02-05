@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "applicants",
   "info": {
-    "name": "Applicants"
+    "name": "Applicants",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -10,12 +11,19 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "applying_for": {
+    "date_applied": {
+      "type": "date",
+      "required": true
+    },
+    "referral": {
+      "type": "string"
+    },
+    "appliying_for": {
       "type": "string",
       "required": true
     },
-    "date_applied": {
-      "type": "date",
+    "lname": {
+      "type": "string",
       "required": true
     },
     "fname": {
@@ -24,14 +32,6 @@
     },
     "mname": {
       "type": "string",
-      "required": true
-    },
-    "lname": {
-      "type": "string",
-      "required": true
-    },
-    "birthdate": {
-      "type": "date",
       "required": true
     },
     "sex": {
@@ -47,9 +47,57 @@
       "enum": [
         "Single",
         "Married",
-        "Divorced",
-        "Widowed"
-      ]
+        "Widowed",
+        "Separated"
+      ],
+      "required": true
+    },
+    "birthdate": {
+      "type": "date",
+      "required": true
+    },
+    "birthplace": {
+      "type": "string",
+      "required": true
+    },
+    "curr_address": {
+      "type": "string",
+      "required": true
+    },
+    "contact_num": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "nth_edu_attain": {
+      "type": "string",
+      "required": true
+    },
+    "school": {
+      "type": "string",
+      "required": true
+    },
+    "acad_track": {
+      "type": "string",
+      "required": true
+    },
+    "grad_year": {
+      "type": "integer",
+      "required": true
+    },
+    "last_employer": {
+      "type": "string"
+    },
+    "position_held": {
+      "type": "string"
+    },
+    "appli_status": {
+      "type": "string"
+    },
+    "serv_duration_mon": {
+      "type": "integer"
     }
   }
 }
