@@ -18,7 +18,7 @@
     "referral": {
       "type": "string"
     },
-    "appliying_for": {
+    "applying_for": {
       "type": "string",
       "required": true
     },
@@ -36,20 +36,12 @@
     },
     "sex": {
       "type": "enumeration",
-      "enum": [
-        "Male",
-        "Female"
-      ],
+      "enum": ["Male", "Female"],
       "required": true
     },
     "civil_status": {
       "type": "enumeration",
-      "enum": [
-        "Single",
-        "Married",
-        "Widowed",
-        "Separated"
-      ],
+      "enum": ["Single", "Married", "Widowed", "Separated"],
       "required": true
     },
     "birthdate": {

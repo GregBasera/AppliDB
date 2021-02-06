@@ -28,8 +28,8 @@ export default function HomeTable() {
 
   const columns = [
     {
-      name: "appliying_for",
-      label: "Appliying for",
+      name: "applying_for",
+      label: "Applying for",
       options: { filter: true, sort: true },
     },
     {
