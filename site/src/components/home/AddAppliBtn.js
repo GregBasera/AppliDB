@@ -1,7 +1,19 @@
 import React, { useState } from "react";
-import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Grid, FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
-import { FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Grid } from "@material-ui/core";
+import { FormControl, InputLabel, Select, MenuItem, Input, Chip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+
+const eligibilities = [
+  "Professional",
+  "Sub-Professional",
+  "RA 1080 (Bar/Board Eligibility)",
+  "Brgy. Official Eligibility",
+  "Local Treasury Office Examination",
+  "PD 907 (Honor Grad Eligibility)",
+  "MC 11, S. 96",
+  "NC I-IV",
+  "Others",
+];
 
 export default function AddAppliBtn() {
   const [open, setOpen] = useState(false);
@@ -172,10 +184,28 @@ export default function AddAppliBtn() {
             </Grid>
 
             <Grid item xs={12}>
-              <FormGroup>
-                {/* <FormControlLabel control={<Checkbox checked={gilad} onChange={handleChange} name="gilad" />} label="Gilad Gray" /> */}
-                <FormControlLabel control={<Checkbox name="hello" />} label="Jason Killian" />
-              </FormGroup>
+              <FormControl fullWidth>
+                <InputLabel>Eligibility(s)</InputLabel>
+                <Select
+                  name="eligibility"
+                  multiple
+                  value={formData.eligibility ?? []}
+                  onChange={handelFormChange}
+                  input={<Input />}
+                  renderValue={(selected) => (
+                    <div>
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} color="secondary" size="small" />
+                      ))}
+                    </div>
+                  )}>
+                  {eligibilities.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
         </DialogContent>
