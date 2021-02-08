@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import moment from "moment";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress } from "@material-ui/core";
 import { Applicants } from "../../endpoints";
@@ -28,109 +29,124 @@ export default function HomeTable() {
 
   const columns = [
     {
+      name: "_id",
+      label: "Applicant ID",
+      options: { display: false },
+    },
+    {
       name: "date_applied",
       label: "Date Applied",
-      options: { filter: true, sort: true, display: true },
+      options: {
+        display: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return moment(value).format("MMMM DD, YYYY");
+        },
+      },
     },
     {
       name: "applying_for",
       label: "Applying for",
-      options: { filter: true, sort: true, display: true },
+      options: { display: true },
     },
     {
       name: "lname",
       label: "Lastname",
-      options: { filter: true, sort: true, display: true },
+      options: { display: true },
     },
     {
       name: "fname",
       label: "Firstname",
-      options: { filter: true, sort: true, display: true },
+      options: { display: true },
     },
     {
       name: "mname",
       label: "Middlename",
-      options: { filter: true, sort: true, display: true },
+      options: { display: true },
     },
     {
       name: "sex",
       label: "Sex",
-      options: { filter: true, sort: true, display: true },
+      options: { display: true },
     },
     {
       name: "civil_status",
       label: "Civil Status",
-      options: { filter: true, sort: true, display: true },
+      options: { display: true },
     },
     {
       name: "birthdate",
       label: "Birthdate",
-      options: { filter: true, sort: true, display: true },
+      options: {
+        display: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return moment(value).format("MMMM DD, YYYY");
+        },
+      },
     },
     {
       name: "birthplace",
       label: "Birthplace",
-      options: { filter: true, sort: true, display: true },
+      options: { display: true },
     },
     {
       name: "curr_address",
       label: "Current Address",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "contact_num",
       label: "Contact Number",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "email",
       label: "Email Address",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "nth_edu_attain",
       label: "Highest Educational Attainment",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "school",
       label: "School Attended",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "acad_track",
       label: "Course / Strand",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "grad_year",
       label: "Year of Graduation",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "last_employer",
       label: "Last Employer",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "position_held",
       label: "Position Held",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "serv_duration_mon",
       label: "Duration of Service",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "appli_status",
       label: "Status of Application",
-      options: { filter: true, sort: true, display: false },
+      options: { display: false },
     },
     {
       name: "referral",
-      label: "Where did you find us",
-      options: { filter: true, sort: true, display: false },
+      label: "Where did you find us?",
+      options: { display: false },
     },
   ];
 
@@ -141,6 +157,7 @@ export default function HomeTable() {
     draggableColumns: {
       enabled: true,
     },
+    selectableRowsHideCheckboxes: true,
     // resizableColumns: true,
     renderExpandableRow: (rowData, rowMeta) => {
       return <RowExpand colSpan={rowData.length + 1} rowdata={data[rowMeta.dataIndex]} />;
