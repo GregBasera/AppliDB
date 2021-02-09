@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import Axios from "axios";
 import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Grid } from "@material-ui/core";
 import { FormControl, InputLabel, Select, MenuItem, Input, Chip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { Applicants } from "../../endpoints";
 
 const eligibilities = [
   "Professional",
@@ -30,7 +32,21 @@ export default function AddAppliBtn() {
   };
 
   const handleAddAppli = () => {
-    console.log(formData);
+    let tempState = formData;
+    tempState.eligibility = JSON.stringify(tempState.eligibility);
+    let auth = JSON.parse(sessionStorage.getItem("auth"));
+
+    Axios.post(Applicants, tempState, {
+      headers: {
+        Authorization: "Bearer " + auth.jwt,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
