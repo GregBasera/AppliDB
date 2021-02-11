@@ -32,21 +32,24 @@ export default function AddAppliBtn() {
   };
 
   const handleAddAppli = () => {
-    let tempState = formData;
-    tempState.eligibility = JSON.stringify(tempState.eligibility);
+    // var tempState = formData;
+    // tempState.eligibility = JSON.stringify(tempState.eligibility);
     let auth = JSON.parse(sessionStorage.getItem("auth"));
 
-    Axios.post(Applicants, tempState, {
+    Axios.post(Applicants, formData, {
       headers: {
         Authorization: "Bearer " + auth.jwt,
       },
     })
       .then((res) => {
         console.log(res);
+        handleClose();
       })
       .catch((err) => {
         console.log(err);
       });
+
+    // tempState.eligibility = JSON.parse(tempState.eligibility); // have to re-parse the stringified :(
   };
 
   return (
