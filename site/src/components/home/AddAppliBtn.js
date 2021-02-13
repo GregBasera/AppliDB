@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Grid } from "@material-ui/core";
+import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Grid, Checkbox, ListItemText } from "@material-ui/core";
 import { FormControl, InputLabel, Select, MenuItem, Input, Chip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Applicants } from "../../endpoints";
@@ -17,6 +17,10 @@ const eligibilities = [
   "Others",
 ];
 
+function plainTextField(type, label, name, value, onChange, InputLabelProps) {
+  return <TextField variant="outlined" size="small" fullWidth type={type} label={label} name={name} value={value} onChange={onChange} InputLabelProps={InputLabelProps} />;
+}
+
 export default function AddAppliBtn() {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
@@ -28,12 +32,17 @@ export default function AddAppliBtn() {
 
   const [formData, setFormData] = useState({});
   const handelFormChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    switch (e.target.name) {
+      case "eligibility":
+        setFormData({ ...formData, eligibility: JSON.stringify(e.target.value) });
+        break;
+      default:
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+        break;
+    }
   };
 
   const handleAddAppli = () => {
-    // var tempState = formData;
-    // tempState.eligibility = JSON.stringify(tempState.eligibility);
     let auth = JSON.parse(sessionStorage.getItem("auth"));
 
     Axios.post(Applicants, formData, {
@@ -48,8 +57,6 @@ export default function AddAppliBtn() {
       .catch((err) => {
         console.log(err);
       });
-
-    // tempState.eligibility = JSON.parse(tempState.eligibility); // have to re-parse the stringified :(
   };
 
   return (
@@ -66,41 +73,23 @@ export default function AddAppliBtn() {
         <DialogContent dividers>
           <Grid container spacing={1}>
             <Grid item xs={2}>
-              <TextField
-                type="date"
-                label="Date Applied"
-                variant="outlined"
-                name="date_applied"
-                size="small"
-                value={formData.date_applied ?? ""}
-                onChange={handelFormChange}
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-              />
+              {plainTextField("date", "Date Applied", "date_applied", formData.date_applied ?? "", handelFormChange, { shrink: true })}
             </Grid>
             <Grid item xs={5}>
-              <TextField label="Applying for" variant="outlined" name="applying_for" size="small" value={formData.applying_for ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Applying for", "applying_for", formData.applying_for ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={5}>
-              <TextField
-                label="Where did you hear about us?"
-                variant="outlined"
-                name="referral"
-                size="small"
-                value={formData.referral ?? ""}
-                onChange={handelFormChange}
-                fullWidth
-              />
+              {plainTextField("text", "Where did you hear about us?", "referral", formData.referral ?? "", handelFormChange)}
             </Grid>
 
             <Grid item xs={3}>
-              <TextField label="Lastname" variant="outlined" name="lname" size="small" value={formData.lname ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Lastname", "lname", formData.lname ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
-              <TextField label="Firstname" variant="outlined" name="fname" size="small" value={formData.fname ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Firstname", "fname", formData.fname ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
-              <TextField label="Middlename" variant="outlined" name="mname" size="small" value={formData.mname ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Middlename", "mname", formData.mname ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
               <FormControl variant="outlined" size="small" fullWidth>
@@ -124,91 +113,55 @@ export default function AddAppliBtn() {
               </FormControl>
             </Grid>
             <Grid item xs={2}>
-              <TextField
-                type="date"
-                label="Birthdate"
-                variant="outlined"
-                name="birthdate"
-                size="small"
-                value={formData.birthdate ?? ""}
-                onChange={handelFormChange}
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-              />
+              {plainTextField("date", "Birthdate", "birthdate", formData.birthdate ?? "", handelFormChange, { shrink: true })}
             </Grid>
             <Grid item xs={3}>
-              <TextField label="Birthplace" variant="outlined" name="birthplace" size="small" value={formData.birthplace ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Birthplace", "birthplace", formData.birthplace ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={2}>
-              <TextField label="Contact Number" variant="outlined" name="contact_num" size="small" value={formData.contact_num ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Contact Number", "contact_num", formData.contact_num ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
-              <TextField type="email" label="Email address" variant="outlined" name="email" size="small" value={formData.email ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("email", "Email address", "email", formData.email ?? "", handelFormChange)}
             </Grid>
 
             <Grid item xs={12}>
-              <TextField label="Current Address" variant="outlined" name="curr_address" size="small" value={formData.curr_address ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Current Address", "curr_address", formData.curr_address ?? "", handelFormChange)}
             </Grid>
 
             <Grid item xs={4}>
-              <TextField
-                label="Highest Educational Attainment"
-                variant="outlined"
-                name="nth_edu_attain"
-                size="small"
-                value={formData.nth_edu_attain ?? ""}
-                onChange={handelFormChange}
-                fullWidth
-              />
+              {plainTextField("text", "Highest Educational Attainment", "nth_edu_attain", formData.nth_edu_attain ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={5}>
-              <TextField label="School Attended" variant="outlined" name="school" size="small" value={formData.school ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "School Attended", "school", formData.school ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
-              <TextField label="Course / Track" variant="outlined" name="acad_track" size="small" value={formData.acad_track ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Course / Track", "acad_track", formData.acad_track ?? "", handelFormChange)}
             </Grid>
 
             <Grid item xs={2}>
-              <TextField
-                type="number"
-                label="Year of Graduation"
-                variant="outlined"
-                name="grad_year"
-                size="small"
-                value={formData.grad_year ?? ""}
-                onChange={handelFormChange}
-                fullWidth
-              />
+              {plainTextField("number", "Year of Graduation", "grad_year", formData.grad_year ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
-              <TextField label="Last Employer" variant="outlined" name="last_employer" size="small" value={formData.last_employer ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Last Employer", "last_employer", formData.last_employer ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
-              <TextField label="Position Held" variant="outlined" name="position_held" size="small" value={formData.position_held ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Position Held", "position_held", formData.position_held ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={2}>
-              <TextField
-                type="number"
-                label="Service Duration"
-                variant="outlined"
-                name="serv_duration_mon"
-                size="small"
-                value={formData.serv_duration_mon ?? ""}
-                onChange={handelFormChange}
-                fullWidth
-              />
+              {plainTextField("number", "Serv Duration(mons)", "serv_duration_mon", formData.serv_duration_mon ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={2}>
-              <TextField label="Application Status" variant="outlined" name="appli_status" size="small" value={formData.appli_status ?? ""} onChange={handelFormChange} fullWidth />
+              {plainTextField("text", "Application Status", "appli_status", formData.appli_status ?? "", handelFormChange)}
             </Grid>
 
-            <Grid item xs={12}>
-              <FormControl fullWidth>
+            <Grid item xs={6}>
+              <FormControl fullWidth variant="outlined">
                 <InputLabel>Eligibility(s)</InputLabel>
                 <Select
                   name="eligibility"
                   multiple
-                  value={formData.eligibility ?? []}
+                  value={formData.eligibility ? JSON.parse(formData.eligibility) : []}
                   onChange={handelFormChange}
                   input={<Input />}
                   renderValue={(selected) => (
@@ -219,8 +172,9 @@ export default function AddAppliBtn() {
                     </div>
                   )}>
                   {eligibilities.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      {name}
+                    <MenuItem key={name} value={name} dense>
+                      <Checkbox checked={(formData.eligibility ?? []).indexOf(name) > -1} />
+                      <ListItemText primary={name} />
                     </MenuItem>
                   ))}
                 </Select>

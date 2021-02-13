@@ -17,14 +17,18 @@ function renderListItems(obj) {
 }
 
 export default function RowExpand(props) {
-  let { date_applied, applying_for, referral, appli_status } = props.rowdata;
-  const ad = { date_applied, applying_for, referral, appli_status };
-  let { _id, createdAt, updatedAt } = props.rowdata;
-  const md = { _id, createdAt, updatedAt };
-  let { lname, fname, mname, sex, civil_status, birthdate, birthplace, curr_address, contact_num, email } = props.rowdata;
-  const pi = { lname, fname, mname, sex, civil_status, birthdate, birthplace, curr_address, contact_num, email };
-  let { nth_edu_attain, school, acad_track, grad_year, last_employer, position_held, serv_duration_mon, eligibility } = props.rowdata;
-  const ec = { nth_edu_attain, school, acad_track, grad_year, last_employer, position_held, serv_duration_mon, eligibility };
+  const ad = ({ date_applied, applying_for, referral, appli_status }) => {
+    return { date_applied, applying_for, referral, appli_status };
+  };
+  const md = ({ _id, createdAt, updatedAt }) => {
+    return { _id, createdAt, updatedAt };
+  };
+  const pi = ({ lname, fname, mname, sex, civil_status, birthdate, birthplace, curr_address, contact_num, email }) => {
+    return { lname, fname, mname, sex, civil_status, birthdate, birthplace, curr_address, contact_num, email };
+  };
+  const ec = ({ nth_edu_attain, school, acad_track, grad_year, last_employer, position_held, serv_duration_mon, eligibility }) => {
+    return { nth_edu_attain, school, acad_track, grad_year, last_employer, position_held, serv_duration_mon, eligibility };
+  };
 
   return (
     <TableRow style={{ backgroundColor: "#9CA3AF" }}>
@@ -34,23 +38,23 @@ export default function RowExpand(props) {
             <Grid container spacing={2}>
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Application Details</ListSubheader>}>
-                  {renderListItems(ad)}
+                  {renderListItems(ad(props.rowdata))}
                 </List>
                 <Divider />
                 <List dense subheader={<ListSubheader component="div">Meta Data</ListSubheader>}>
-                  {renderListItems(md)}
+                  {renderListItems(md(props.rowdata))}
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Personal Information</ListSubheader>}>
-                  {renderListItems(pi)}
+                  {renderListItems(pi(props.rowdata))}
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Education and Career</ListSubheader>}>
-                  {renderListItems(ec)}
+                  {renderListItems(ec(props.rowdata))}
                 </List>
               </Grid>
             </Grid>
