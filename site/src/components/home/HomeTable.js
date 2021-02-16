@@ -31,7 +31,7 @@ export default function HomeTable() {
     {
       name: "_id",
       label: "Applicant ID",
-      options: { display: false },
+      options: { filter: false, display: false },
     },
     {
       name: "date_applied",
@@ -51,17 +51,17 @@ export default function HomeTable() {
     {
       name: "lname",
       label: "Lastname",
-      options: { display: true },
+      options: { filter: false, display: true },
     },
     {
       name: "fname",
       label: "Firstname",
-      options: { display: true },
+      options: { filter: false, display: true },
     },
     {
       name: "mname",
       label: "Middlename",
-      options: { display: true },
+      options: { filter: false, display: true },
     },
     {
       name: "sex",
@@ -77,6 +77,7 @@ export default function HomeTable() {
       name: "birthdate",
       label: "Birthdate",
       options: {
+        filter: false,
         display: true,
         customBodyRender: (value, tableMeta, updateValue) => {
           return moment(value).format("MMMM DD, YYYY");
@@ -96,12 +97,12 @@ export default function HomeTable() {
     {
       name: "contact_num",
       label: "Contact Number",
-      options: { display: false },
+      options: { filter: false, display: false },
     },
     {
       name: "email",
       label: "Email Address",
-      options: { display: false },
+      options: { filter: false, display: false },
     },
     {
       name: "nth_edu_attain",
@@ -121,22 +122,22 @@ export default function HomeTable() {
     {
       name: "grad_year",
       label: "Year of Graduation",
-      options: { display: false },
+      options: { filter: false, display: false },
     },
     {
       name: "last_employer",
       label: "Last Employer",
-      options: { display: false },
+      options: { filter: false, display: false },
     },
     {
       name: "position_held",
       label: "Position Held",
-      options: { display: false },
+      options: { filter: false, display: false },
     },
     {
       name: "serv_duration_mon",
       label: "Duration of Service",
-      options: { display: false },
+      options: { filter: false, display: false },
     },
     {
       name: "appli_status",

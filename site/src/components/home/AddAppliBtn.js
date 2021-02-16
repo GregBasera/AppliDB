@@ -6,14 +6,17 @@ import AddIcon from "@material-ui/icons/Add";
 import { Applicants } from "../../endpoints";
 
 const eligibilities = [
-  "Professional",
-  "Sub-Professional",
+  "Civil Service Professional",
+  "Civil Service Sub-Professional",
   "RA 1080 (Bar/Board Eligibility)",
   "Brgy. Official Eligibility",
   "Local Treasury Office Examination",
   "PD 907 (Honor Grad Eligibility)",
   "MC 11, S. 96",
-  "NC I-IV",
+  "Tesda NC I",
+  "Tesda NC II",
+  "Tesda NC III",
+  "Tesda NC IV",
   "Others",
 ];
 
@@ -130,7 +133,24 @@ export default function AddAppliBtn() {
             </Grid>
 
             <Grid item xs={4}>
-              {plainTextField("text", "Highest Educational Attainment", "nth_edu_attain", formData.nth_edu_attain ?? "", handelFormChange)}
+              <FormControl variant="outlined" size="small" fullWidth>
+                <InputLabel>Highest Educational Attainment</InputLabel>
+                <Select name="nth_edu_attain" value={formData.nth_edu_attain ?? ""} onChange={handelFormChange} label="Highest Educational Attainment">
+                  <MenuItem value="Elementary Graduate">Elementary Graduate</MenuItem>
+                  <MenuItem value="Elementary Under-Graduate">Elementary Under-Graduate</MenuItem>
+                  <MenuItem value="Junior-HS Graduate">Junior-HS Graduate</MenuItem>
+                  <MenuItem value="Junior-HS Under-Graduate">Junior-HS Under-Graduate</MenuItem>
+                  <MenuItem value="Senior-HS Graduate">Senior-HS Graduate</MenuItem>
+                  <MenuItem value="Senior-HS Under-Graduate">Senior-HS Under-Graduate</MenuItem>
+                  <MenuItem value="Vocational/Trade-Course Graduate">Vocational/Trade-Course Graduate</MenuItem>
+                  <MenuItem value="Vocational/Trade-Course Under-Graduate">Vocational/Trade-Course Under-Graduate</MenuItem>
+                  <MenuItem value="College Graduate">College Graduate</MenuItem>
+                  <MenuItem value="College Under-Graduate">College Under-Graduate</MenuItem>
+                  <MenuItem value="Graduate Studies Graduate">Graduate Studies Graduate</MenuItem>
+                  <MenuItem value="Graduate Studies Under-Graduate">Graduate Studies Under-Graduate</MenuItem>
+                </Select>
+              </FormControl>
+              {/* {plainTextField("text", "Highest Educational Attainment", "nth_edu_attain", formData.nth_edu_attain ?? "", handelFormChange)} */}
             </Grid>
             <Grid item xs={5}>
               {plainTextField("text", "School Attended", "school", formData.school ?? "", handelFormChange)}
@@ -142,6 +162,9 @@ export default function AddAppliBtn() {
             <Grid item xs={2}>
               {plainTextField("number", "Year of Graduation", "grad_year", formData.grad_year ?? "", handelFormChange)}
             </Grid>
+            <Grid item xs={4}>
+              {plainTextField("text", "Achievements/Honors/Scholarships", "achieve", formData.achieve ?? "", handelFormChange)}
+            </Grid>
             <Grid item xs={3}>
               {plainTextField("text", "Last Employer", "last_employer", formData.last_employer ?? "", handelFormChange)}
             </Grid>
@@ -151,12 +174,9 @@ export default function AddAppliBtn() {
             <Grid item xs={2}>
               {plainTextField("number", "Serv Duration(mons)", "serv_duration_mon", formData.serv_duration_mon ?? "", handelFormChange)}
             </Grid>
-            <Grid item xs={2}>
-              {plainTextField("text", "Application Status", "appli_status", formData.appli_status ?? "", handelFormChange)}
-            </Grid>
 
-            <Grid item xs={6}>
-              <FormControl fullWidth variant="outlined">
+            <Grid item xs={5}>
+              <FormControl variant="outlined" size="small" fullWidth>
                 <InputLabel>Eligibility(s)</InputLabel>
                 <Select
                   name="eligibility"
@@ -179,6 +199,10 @@ export default function AddAppliBtn() {
                   ))}
                 </Select>
               </FormControl>
+            </Grid>
+
+            <Grid item xs={5}>
+              {plainTextField("text", "Application Status / Remarks", "appli_status", formData.appli_status ?? "", handelFormChange)}
             </Grid>
           </Grid>
         </DialogContent>
