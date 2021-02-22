@@ -60,7 +60,7 @@
       "type": "string",
       "required": true
     },
-    "curr_address": {
+    "resi_address": {
       "type": "string",
       "required": true
     },
@@ -102,6 +102,17 @@
     "eligibility": {
       "type": "string",
       "required": false
+    },
+    "perm_address": {
+      "type": "string",
+      "required": true
+    },
+    "age": {
+      "type": "integer",
+      "required": true
+    },
+    "achieve": {
+      "type": "string"
     }
   }
 }

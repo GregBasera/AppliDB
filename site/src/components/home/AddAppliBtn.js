@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Grid, Checkbox, ListItemText } from "@material-ui/core";
+import moment from "moment";
+import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Grid, Checkbox, ListItemText, FormHelperText } from "@material-ui/core";
 import { FormControl, InputLabel, Select, MenuItem, Input, Chip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Applicants } from "../../endpoints";
@@ -19,12 +20,45 @@ const eligibilities = [
   "Tesda NC IV",
   "Others",
 ];
+const edu_attain = [
+  "Elementary Graduate",
+  "Elementary Under-Graduate",
+  "Junior-HS Graduate",
+  "Junior-HS Under-Graduate",
+  "Senior-HS Graduate",
+  "Senior-HS Under-Graduate",
+  "Vocational/Trade-Course Graduate",
+  "Vocational/Trade-Course Under-Graduate",
+  "College Graduate",
+  "College Under-Graduate",
+  "Graduate Studies Graduate",
+  "Graduate Studies Under-Graduate",
+];
 
-function plainTextField(type, label, name, value, onChange, InputLabelProps) {
-  return <TextField variant="outlined" size="small" fullWidth type={type} label={label} name={name} value={value} onChange={onChange} InputLabelProps={InputLabelProps} />;
+function plainTextField(type, label, name, value, onChange, InputLabelProps, helpertext) {
+  return (
+    <TextField
+      variant="outlined"
+      size="small"
+      fullWidth
+      type={type}
+      label={label}
+      name={name}
+      value={value}
+      onChange={onChange}
+      InputLabelProps={InputLabelProps}
+      helperText={
+        helpertext ? (
+          <FormHelperText component="small" margin="dense">
+            {helpertext}
+          </FormHelperText>
+        ) : null
+      }
+    />
+  );
 }
 
-export default function AddAppliBtn() {
+export default function AddAppliBtn(props) {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(true);
@@ -38,6 +72,9 @@ export default function AddAppliBtn() {
     switch (e.target.name) {
       case "eligibility":
         setFormData({ ...formData, eligibility: JSON.stringify(e.target.value) });
+        break;
+      case "birthdate":
+        setFormData({ ...formData, [e.target.name]: e.target.value, age: moment().diff(e.target.value, "years") });
         break;
       default:
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,11 +92,13 @@ export default function AddAppliBtn() {
     })
       .then((res) => {
         console.log(res);
+        props.add(res.data);
         handleClose();
       })
       .catch((err) => {
         console.log(err);
       });
+    // console.log(formData);
   };
 
   return (
@@ -94,7 +133,7 @@ export default function AddAppliBtn() {
             <Grid item xs={3}>
               {plainTextField("text", "Middlename", "mname", formData.mname ?? "", handelFormChange)}
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <FormControl variant="outlined" size="small" fullWidth>
                 <InputLabel>Civil Status</InputLabel>
                 <Select name="civil_status" value={formData.civil_status ?? ""} onChange={handelFormChange} label="Civil Status">
@@ -105,8 +144,7 @@ export default function AddAppliBtn() {
                 </Select>
               </FormControl>
             </Grid>
-
-            <Grid item xs={2}>
+            <Grid item xs={1}>
               <FormControl variant="outlined" size="small" fullWidth>
                 <InputLabel>Sex</InputLabel>
                 <Select name="sex" value={formData.sex ?? ""} onChange={handelFormChange} label="Sex">
@@ -115,10 +153,14 @@ export default function AddAppliBtn() {
                 </Select>
               </FormControl>
             </Grid>
+
             <Grid item xs={2}>
               {plainTextField("date", "Birthdate", "birthdate", formData.birthdate ?? "", handelFormChange, { shrink: true })}
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={1}>
+              {plainTextField("number", "Age", "age", formData.age ?? "", handelFormChange)}
+            </Grid>
+            <Grid item xs={4}>
               {plainTextField("text", "Birthplace", "birthplace", formData.birthplace ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={2}>
@@ -128,43 +170,55 @@ export default function AddAppliBtn() {
               {plainTextField("email", "Email address", "email", formData.email ?? "", handelFormChange)}
             </Grid>
 
-            <Grid item xs={12}>
-              {plainTextField("text", "Current Address", "curr_address", formData.curr_address ?? "", handelFormChange)}
+            <Grid item xs={6}>
+              {plainTextField(
+                "text",
+                "Residencial Address",
+                "resi_address",
+                formData.resi_address ?? "",
+                handelFormChange,
+                null,
+                "Separate parts of the address using semicolons(;)"
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              {plainTextField(
+                "text",
+                "Permanent Address",
+                "perm_address",
+                formData.perm_address ?? "",
+                handelFormChange,
+                null,
+                "Separate parts of the address using semicolons(;)"
+              )}
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <FormControl variant="outlined" size="small" fullWidth>
                 <InputLabel>Highest Educational Attainment</InputLabel>
                 <Select name="nth_edu_attain" value={formData.nth_edu_attain ?? ""} onChange={handelFormChange} label="Highest Educational Attainment">
-                  <MenuItem value="Elementary Graduate">Elementary Graduate</MenuItem>
-                  <MenuItem value="Elementary Under-Graduate">Elementary Under-Graduate</MenuItem>
-                  <MenuItem value="Junior-HS Graduate">Junior-HS Graduate</MenuItem>
-                  <MenuItem value="Junior-HS Under-Graduate">Junior-HS Under-Graduate</MenuItem>
-                  <MenuItem value="Senior-HS Graduate">Senior-HS Graduate</MenuItem>
-                  <MenuItem value="Senior-HS Under-Graduate">Senior-HS Under-Graduate</MenuItem>
-                  <MenuItem value="Vocational/Trade-Course Graduate">Vocational/Trade-Course Graduate</MenuItem>
-                  <MenuItem value="Vocational/Trade-Course Under-Graduate">Vocational/Trade-Course Under-Graduate</MenuItem>
-                  <MenuItem value="College Graduate">College Graduate</MenuItem>
-                  <MenuItem value="College Under-Graduate">College Under-Graduate</MenuItem>
-                  <MenuItem value="Graduate Studies Graduate">Graduate Studies Graduate</MenuItem>
-                  <MenuItem value="Graduate Studies Under-Graduate">Graduate Studies Under-Graduate</MenuItem>
+                  {edu_attain.map((e) => (
+                    <MenuItem key={e} value={e}>
+                      {e}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
-              {/* {plainTextField("text", "Highest Educational Attainment", "nth_edu_attain", formData.nth_edu_attain ?? "", handelFormChange)} */}
             </Grid>
-            <Grid item xs={5}>
+            <Grid item xs={4}>
               {plainTextField("text", "School Attended", "school", formData.school ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
               {plainTextField("text", "Course / Track", "acad_track", formData.acad_track ?? "", handelFormChange)}
             </Grid>
-
             <Grid item xs={2}>
-              {plainTextField("number", "Year of Graduation", "grad_year", formData.grad_year ?? "", handelFormChange)}
+              {plainTextField("number", "Grad Year", "grad_year", formData.grad_year ?? "", handelFormChange)}
             </Grid>
-            <Grid item xs={4}>
-              {plainTextField("text", "Achievements/Honors/Scholarships", "achieve", formData.achieve ?? "", handelFormChange)}
+
+            <Grid item xs={12}>
+              {plainTextField("text", "Achievements/Honors/Scholarships", "achieve", formData.achieve ?? "", handelFormChange, null, "Separate items with semicolons(;)")}
             </Grid>
+
             <Grid item xs={3}>
               {plainTextField("text", "Last Employer", "last_employer", formData.last_employer ?? "", handelFormChange)}
             </Grid>
@@ -174,8 +228,7 @@ export default function AddAppliBtn() {
             <Grid item xs={2}>
               {plainTextField("number", "Serv Duration(mons)", "serv_duration_mon", formData.serv_duration_mon ?? "", handelFormChange)}
             </Grid>
-
-            <Grid item xs={5}>
+            <Grid item xs={4}>
               <FormControl variant="outlined" size="small" fullWidth>
                 <InputLabel>Eligibility(s)</InputLabel>
                 <Select
@@ -201,7 +254,7 @@ export default function AddAppliBtn() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={5}>
+            <Grid item xs={12}>
               {plainTextField("text", "Application Status / Remarks", "appli_status", formData.appli_status ?? "", handelFormChange)}
             </Grid>
           </Grid>

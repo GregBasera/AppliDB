@@ -27,6 +27,10 @@ export default function HomeTable() {
     // eslint-disable-next-line
   }, []);
 
+  const handleNewRecord = (newRecord) => {
+    setData([newRecord, ...data]);
+  };
+
   const columns = [
     {
       name: "_id",
@@ -85,14 +89,24 @@ export default function HomeTable() {
       },
     },
     {
+      name: "age",
+      label: "Age",
+      options: { display: true },
+    },
+    {
       name: "birthplace",
       label: "Birthplace",
       options: { display: true },
     },
     {
-      name: "curr_address",
-      label: "Current Address",
-      options: { display: false },
+      name: "resi_address",
+      label: "Residencial Address",
+      options: { filter: false, display: false },
+    },
+    {
+      name: "perm_address",
+      label: "Permanent Address",
+      options: { filter: false, display: false },
     },
     {
       name: "contact_num",
@@ -125,6 +139,11 @@ export default function HomeTable() {
       options: { filter: false, display: false },
     },
     {
+      name: "achieve",
+      label: "Achievements",
+      options: { filter: false, display: false },
+    },
+    {
       name: "last_employer",
       label: "Last Employer",
       options: { filter: false, display: false },
@@ -142,7 +161,7 @@ export default function HomeTable() {
     {
       name: "appli_status",
       label: "Status of Application",
-      options: { display: false },
+      options: { filter: false, display: false },
     },
     {
       name: "referral",
@@ -158,13 +177,18 @@ export default function HomeTable() {
     draggableColumns: {
       enabled: true,
     },
-    selectableRowsHideCheckboxes: true,
+    selectableRowsHideCheckboxes: false,
     // resizableColumns: true,
     renderExpandableRow: (rowData, rowMeta) => {
       return <RowExpand colSpan={rowData.length + 1} rowdata={data[rowMeta.dataIndex]} />;
     },
     customToolbar: () => {
-      return <AddAppliBtn />;
+      return <AddAppliBtn add={handleNewRecord} />;
+    },
+    downloadOptions: {
+      filename: `ApplicantDatabase-${moment().format("DD-MMM-YYYY")}`,
+      separator: ",",
+      filterOptions: { useDisplayedColumnsOnly: true },
     },
   };
 

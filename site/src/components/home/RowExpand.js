@@ -23,11 +23,11 @@ export default function RowExpand(props) {
   const md = ({ _id, createdAt, updatedAt }) => {
     return { _id, createdAt, updatedAt };
   };
-  const pi = ({ lname, fname, mname, sex, civil_status, birthdate, birthplace, curr_address, contact_num, email }) => {
-    return { lname, fname, mname, sex, civil_status, birthdate, birthplace, curr_address, contact_num, email };
+  const pi = ({ lname, fname, mname, sex, civil_status, birthdate, age, birthplace, contact_num, email, resi_address, perm_address }) => {
+    return { lname, fname, mname, sex, civil_status, birthdate, age, birthplace, contact_num, email, resi_address, perm_address };
   };
-  const ec = ({ nth_edu_attain, school, acad_track, grad_year, last_employer, position_held, serv_duration_mon, eligibility }) => {
-    return { nth_edu_attain, school, acad_track, grad_year, last_employer, position_held, serv_duration_mon, eligibility };
+  const ec = ({ nth_edu_attain, school, acad_track, grad_year, achieve, last_employer, position_held, serv_duration_mon, eligibility }) => {
+    return { nth_edu_attain, school, acad_track, grad_year, achieve, last_employer, position_held, serv_duration_mon, eligibility };
   };
 
   return (
