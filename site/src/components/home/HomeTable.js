@@ -188,8 +188,9 @@ export default function HomeTable() {
     downloadOptions: {
       filename: `ApplicantDatabase-${moment().format("DD-MMM-YYYY")}`,
       separator: ",",
-      filterOptions: { useDisplayedColumnsOnly: true },
+      filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
+    // rowsPerPageOptions: [10, 50, 100, 1000],
   };
 
   return data ? <MUIDataTable title={"Applicant List"} data={data} columns={columns} options={options} /> : <CircularProgress />;

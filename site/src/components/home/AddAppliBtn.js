@@ -1,7 +1,22 @@
 import React, { useState } from "react";
 import Axios from "axios";
 import moment from "moment";
-import { Tooltip, IconButton, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, Grid, Checkbox, ListItemText, FormHelperText } from "@material-ui/core";
+import {
+  Tooltip,
+  IconButton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  DialogActions,
+  Button,
+  Grid,
+  Checkbox,
+  ListItemText,
+  FormHelperText,
+  CircularProgress,
+} from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import { FormControl, InputLabel, Select, MenuItem, Input, Chip } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Applicants } from "../../endpoints";
@@ -58,6 +73,29 @@ function plainTextField(type, label, name, value, onChange, InputLabelProps, hel
   );
 }
 
+function accessPrivs() {
+  let auth = JSON.parse(sessionStorage.getItem("auth"));
+  if (auth.user.role.name === "Visitor") {
+    return <Alert severity="error">Your account only has 'Visitor' privileges. You will be unable to Add an Applicant.</Alert>;
+  } else {
+    return null;
+  }
+}
+
+function creationFeedback(creation) {
+  switch (creation.status) {
+    case "pending":
+      return <CircularProgress />;
+    case "error":
+      let q = JSON.parse(creation.msg).data;
+      return <Alert severity={creation.level}>{q.message}</Alert>;
+    case "success":
+      return <Alert severity={creation.level}>this is success</Alert>;
+    default:
+      return null;
+  }
+}
+
 export default function AddAppliBtn(props) {
   const [open, setOpen] = useState(false);
   const handleClick = () => {
@@ -82,6 +120,7 @@ export default function AddAppliBtn(props) {
     }
   };
 
+  const [creation, setCreation] = useState({ status: "hide", msg: {}, level: "error" });
   const handleAddAppli = () => {
     let auth = JSON.parse(sessionStorage.getItem("auth"));
 
@@ -91,12 +130,12 @@ export default function AddAppliBtn(props) {
       },
     })
       .then((res) => {
-        console.log(res);
         props.add(res.data);
+        setCreation({ status: "success", msg: "Applicant record was added.", level: "success" });
         handleClose();
       })
       .catch((err) => {
-        console.log(err);
+        setCreation({ status: "error", msg: JSON.stringify(err.response), level: "error" });
       });
     // console.log(formData);
   };
@@ -111,6 +150,7 @@ export default function AddAppliBtn(props) {
 
       <Dialog onClose={handleClose} open={open} maxWidth="lg" fullWidth>
         <DialogTitle onClose={handleClose}>Add an Applicant</DialogTitle>
+        {accessPrivs()}
 
         <DialogContent dividers>
           <Grid container spacing={1}>
@@ -171,26 +211,10 @@ export default function AddAppliBtn(props) {
             </Grid>
 
             <Grid item xs={6}>
-              {plainTextField(
-                "text",
-                "Residencial Address",
-                "resi_address",
-                formData.resi_address ?? "",
-                handelFormChange,
-                null,
-                "Separate parts of the address using semicolons(;)"
-              )}
+              {plainTextField("text", "Residencial Address", "resi_address", formData.resi_address ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={6}>
-              {plainTextField(
-                "text",
-                "Permanent Address",
-                "perm_address",
-                formData.perm_address ?? "",
-                handelFormChange,
-                null,
-                "Separate parts of the address using semicolons(;)"
-              )}
+              {plainTextField("text", "Permanent Address", "perm_address", formData.perm_address ?? "", handelFormChange)}
             </Grid>
 
             <Grid item xs={3}>
@@ -216,7 +240,7 @@ export default function AddAppliBtn(props) {
             </Grid>
 
             <Grid item xs={12}>
-              {plainTextField("text", "Achievements/Honors/Scholarships", "achieve", formData.achieve ?? "", handelFormChange, null, "Separate items with semicolons(;)")}
+              {plainTextField("text", "Achievements/Honors/Scholarships", "achieve", formData.achieve ?? "", handelFormChange)}
             </Grid>
 
             <Grid item xs={3}>
@@ -261,8 +285,10 @@ export default function AddAppliBtn(props) {
         </DialogContent>
 
         <DialogActions>
+          {creationFeedback(creation)}
+
           <Button autoFocus onClick={handleClose} color="secondary">
-            Close
+            Cancel
           </Button>
           <Button autoFocus onClick={handleAddAppli} color="primary">
             Add Applicant
