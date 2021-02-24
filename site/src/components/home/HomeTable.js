@@ -19,6 +19,7 @@ export default function HomeTable() {
     })
       .then((res) => {
         setData(res.data);
+        console.log(res.data.length);
       })
       .catch((err) => {
         console.log(err);
@@ -190,7 +191,7 @@ export default function HomeTable() {
       separator: ",",
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
-    // rowsPerPageOptions: [10, 50, 100, 1000],
+    rowsPerPageOptions: [10, 50, 100, 1000],
   };
 
   return data ? <MUIDataTable title={"Applicant List"} data={data} columns={columns} options={options} /> : <CircularProgress />;

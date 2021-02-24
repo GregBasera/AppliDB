@@ -287,10 +287,10 @@ export default function AddAppliBtn(props) {
         <DialogActions>
           {creationFeedback(creation)}
 
-          <Button autoFocus onClick={handleClose} color="secondary">
+          <Button autoFocus onClick={handleClose} variant="contained" disableFocusRipple color="secondary">
             Cancel
           </Button>
-          <Button autoFocus onClick={handleAddAppli} color="primary">
+          <Button autoFocus onClick={handleAddAppli} variant="contained" disableFocusRipple color="primary">
             Add Applicant
           </Button>
         </DialogActions>
