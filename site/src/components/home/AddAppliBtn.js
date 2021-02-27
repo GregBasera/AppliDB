@@ -36,18 +36,18 @@ const eligibilities = [
   "Others",
 ];
 const edu_attain = [
-  "Elementary Graduate",
-  "Elementary Under-Graduate",
-  "Junior-HS Graduate",
-  "Junior-HS Under-Graduate",
-  "Senior-HS Graduate",
-  "Senior-HS Under-Graduate",
-  "Vocational/Trade-Course Graduate",
-  "Vocational/Trade-Course Under-Graduate",
-  "College Graduate",
-  "College Under-Graduate",
   "Graduate Studies Graduate",
   "Graduate Studies Under-Graduate",
+  "College Graduate",
+  "College Under-Graduate",
+  "Vocational/Trade-Course Graduate",
+  "Vocational/Trade-Course Under-Graduate",
+  "Senior-HS Graduate",
+  "Senior-HS Under-Graduate",
+  "Junior-HS Graduate",
+  "Junior-HS Under-Graduate",
+  "Elementary Graduate",
+  "Elementary Under-Graduate",
 ];
 
 function plainTextField(type, label, name, value, onChange, InputLabelProps, helpertext) {
