@@ -1,9 +1,27 @@
-import React from "react";
-import { TableRow, TableCell, Card, CardContent, List, ListItem, ListSubheader, Grid, Paper, Typography, Divider } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+  TableRow,
+  TableCell,
+  Card,
+  CardContent,
+  List,
+  ListItem,
+  ListSubheader,
+  Grid,
+  Paper,
+  Typography,
+  Divider,
+  CardActions,
+  Button,
+  FormControlLabel,
+  Switch,
+} from "@material-ui/core";
+// import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
-function renderListItems(obj) {
+function renderListItems(obj, editMode) {
   return Object.entries(obj).map((e) => (
-    <ListItem button key={e[0]}>
+    <ListItem button={editMode} key={e[0]}>
       <Grid container spacing={1}>
         <Grid item xs={5}>
           <Typography color="textSecondary">{e[0]}</Typography>
@@ -30,31 +48,40 @@ export default function RowExpand(props) {
     return { nth_edu_attain, school, acad_track, grad_year, achieve, last_employer, position_held, serv_duration_mon, eligibility };
   };
 
+  const [editMode, setEditMode] = useState(false);
+
   return (
     <TableRow style={{ backgroundColor: "#9CA3AF" }}>
       <TableCell colSpan={props.colSpan}>
         <Card variant="outlined">
+          <CardActions>
+            <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />}>
+              Delete this Applicant
+            </Button>
+            <FormControlLabel control={<Switch checked={editMode} onChange={() => setEditMode(!editMode)} name="checkedA" />} label="Edit Mode" />
+          </CardActions>
+
           <CardContent>
             <Grid container spacing={2}>
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Application Details</ListSubheader>}>
-                  {renderListItems(ad(props.rowdata))}
+                  {renderListItems(ad(props.rowdata), editMode)}
                 </List>
                 <Divider />
                 <List dense subheader={<ListSubheader component="div">Meta Data</ListSubheader>}>
-                  {renderListItems(md(props.rowdata))}
+                  {renderListItems(md(props.rowdata), editMode)}
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Personal Information</ListSubheader>}>
-                  {renderListItems(pi(props.rowdata))}
+                  {renderListItems(pi(props.rowdata), editMode)}
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Education and Career</ListSubheader>}>
-                  {renderListItems(ec(props.rowdata))}
+                  {renderListItems(ec(props.rowdata), editMode)}
                 </List>
               </Grid>
             </Grid>

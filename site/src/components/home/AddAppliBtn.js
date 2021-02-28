@@ -90,7 +90,7 @@ function creationFeedback(creation) {
       let q = JSON.parse(creation.msg).data;
       return <Alert severity={creation.level}>{q.message}</Alert>;
     case "success":
-      return <Alert severity={creation.level}>this is success</Alert>;
+      return <Alert severity={creation.level}>Added an applicant</Alert>;
     default:
       return null;
   }

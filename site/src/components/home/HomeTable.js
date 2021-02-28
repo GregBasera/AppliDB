@@ -9,17 +9,31 @@ import RowExpand from "./RowExpand";
 
 export default function HomeTable() {
   const [data, setData] = useState(null);
+  const [count, setCount] = useState(0);
   const auth = JSON.parse(sessionStorage.getItem("auth"));
 
   useEffect(() => {
-    Axios.get(Applicants, {
+    // get the number of records on the Database
+    Axios.get(`${Applicants}/count`, {
       headers: {
-        Authorization: "Bearer " + auth.jwt,
+        Authorization: `Bearer ${auth.jwt}`,
+      },
+    })
+      .then((res) => {
+        setCount(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // get the first portion from Database
+    Axios.get(`${Applicants}?_start=${0}&_limit=${100}&_sort=date_applied:DESC`, {
+      headers: {
+        Authorization: `Bearer ${auth.jwt}`,
       },
     })
       .then((res) => {
         setData(res.data);
-        console.log(res.data.length);
       })
       .catch((err) => {
         console.log(err);
@@ -30,6 +44,7 @@ export default function HomeTable() {
 
   const handleNewRecord = (newRecord) => {
     setData([newRecord, ...data]);
+    setCount(count + 1);
   };
 
   const columns = [
@@ -44,7 +59,7 @@ export default function HomeTable() {
       options: {
         display: true,
         customBodyRender: (value, tableMeta, updateValue) => {
-          return moment(value).format("MMMM DD, YYYY");
+          return moment(value).format("MMM-DD-YYYY");
         },
       },
     },
@@ -55,18 +70,29 @@ export default function HomeTable() {
     },
     {
       name: "lname",
+      label: "Fullname (Last, First Middle)",
+      options: {
+        filter: false,
+        display: true,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return `${value}, ${tableMeta.rowData[5]} ${tableMeta.rowData[6]}`;
+        },
+      },
+    },
+    {
+      name: "lname",
       label: "Lastname",
-      options: { filter: false, display: true },
+      options: { filter: false, display: false },
     },
     {
       name: "fname",
       label: "Firstname",
-      options: { filter: false, display: true },
+      options: { filter: false, display: false },
     },
     {
       name: "mname",
       label: "Middlename",
-      options: { filter: false, display: true },
+      options: { filter: false, display: false },
     },
     {
       name: "sex",
@@ -85,7 +111,7 @@ export default function HomeTable() {
         filter: false,
         display: true,
         customBodyRender: (value, tableMeta, updateValue) => {
-          return moment(value).format("MMMM DD, YYYY");
+          return moment(value).format("MMM-DD-YYYY");
         },
       },
     },
@@ -178,8 +204,9 @@ export default function HomeTable() {
     draggableColumns: {
       enabled: true,
     },
-    selectableRowsHideCheckboxes: false,
+    selectableRowsHideCheckboxes: true,
     // resizableColumns: true,
+    expandableRowsOnClick: true,
     renderExpandableRow: (rowData, rowMeta) => {
       return <RowExpand colSpan={rowData.length + 1} rowdata={data[rowMeta.dataIndex]} />;
     },
@@ -191,7 +218,11 @@ export default function HomeTable() {
       separator: ",",
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
-    rowsPerPageOptions: [10, 50, 100, 1000],
+    rowsPerPageOptions: [10, 50, 100, count],
+    count: count,
+    onChangePage: (currentPage) => {
+      console.log(currentPage);
+    },
   };
 
   return data ? <MUIDataTable title={"Applicant List"} data={data} columns={columns} options={options} /> : <CircularProgress />;
