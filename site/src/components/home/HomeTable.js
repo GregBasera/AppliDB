@@ -27,7 +27,7 @@ export default function HomeTable() {
       });
 
     // get the first portion from Database
-    Axios.get(`${Applicants}?_start=${0}&_limit=${100}&_sort=date_applied:DESC`, {
+    Axios.get(`${Applicants}?_start=${0}&_limit=${count}&_sort=date_applied:DESC`, {
       headers: {
         Authorization: `Bearer ${auth.jwt}`,
       },

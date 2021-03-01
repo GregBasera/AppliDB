@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Axios from "axios";
 import {
   TableRow,
   TableCell,
@@ -15,8 +16,14 @@ import {
   Button,
   FormControlLabel,
   Switch,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  DialogTitle,
 } from "@material-ui/core";
-// import EditIcon from "@material-ui/icons/Edit";
+import { Applicants } from "../../endpoints";
+import Alert from "@material-ui/lab/Alert";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 function renderListItems(obj, editMode) {
@@ -49,13 +56,21 @@ export default function RowExpand(props) {
   };
 
   const [editMode, setEditMode] = useState(false);
+  const [delModalOpen, setDelModalOpen] = useState(false);
+  const handleClose = () => {
+    setDelModalOpen(false);
+  };
+  const delConfirmed = (id) => {
+    Axios.delete(`${Applicants}/${id}`);
+    handleClose();
+  };
 
   return (
     <TableRow style={{ backgroundColor: "#9CA3AF" }}>
       <TableCell colSpan={props.colSpan}>
         <Card variant="outlined">
           <CardActions>
-            <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />}>
+            <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />} onClick={() => setDelModalOpen(true)}>
               Delete this Applicant
             </Button>
             <FormControlLabel control={<Switch checked={editMode} onChange={() => setEditMode(!editMode)} name="checkedA" />} label="Edit Mode" />
@@ -87,6 +102,32 @@ export default function RowExpand(props) {
             </Grid>
           </CardContent>
         </Card>
+
+        <Dialog open={delModalOpen} onClose={handleClose}>
+          <DialogTitle>{`DELETE applicant ${props.rowdata._id}`}</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              <Typography color="textPrimary">{`You are about to DELETE applicant ${props.rowdata._id}.`}</Typography>
+              <Typography color="textPrimary">{`Fullname: ${props.rowdata.lname}, ${props.rowdata.fname} ${props.rowdata.mname}`}</Typography>
+              <Typography paragraph color="textPrimary">{`Application date: ${props.rowdata.date_applied} as ${props.rowdata.applying_for}`}</Typography>
+
+              <Alert severity="warning" style={{ margin: "5px" }}>
+                The GUI may not reflect the changes immediately. Reload the page if necessay.
+              </Alert>
+              <Alert severity="error" style={{ margin: "5px" }}>
+                THIS CAN NOT BE UNDONE!
+              </Alert>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={() => delConfirmed(props.rowdata._id)} variant="contained" color="secondary">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
       </TableCell>
     </TableRow>
   );
