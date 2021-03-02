@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
 import HomeTable from "./HomeTable";
+import PersonIcon from "@material-ui/icons/Person";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +36,11 @@ export default function Home() {
           <Typography variant="h6" className={classes.title}>
             LGUTK-HRMO AppliDB
           </Typography>
-          <Button color="inherit" onClick={handleLogout}>
+
+          <Button color="inherit" startIcon={<PersonIcon />}>
+            admin
+          </Button>
+          <Button variant="contained" onClick={handleLogout} style={{ backgroundColor: "gray", color: "white", marginLeft: "20px" }}>
             log-out
           </Button>
         </Toolbar>

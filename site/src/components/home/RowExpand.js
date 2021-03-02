@@ -26,6 +26,15 @@ import { Applicants } from "../../endpoints";
 import Alert from "@material-ui/lab/Alert";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+function accessPrivs() {
+  let auth = JSON.parse(sessionStorage.getItem("auth"));
+  if (auth.user.role.name !== "Admin") {
+    return <Alert severity="error">{`Your account only has '${auth.user.role.name}' privileges. You do not have access to this feature/action.`}</Alert>;
+  } else {
+    return null;
+  }
+}
+
 function renderListItems(obj, editMode) {
   return Object.entries(obj).map((e) => (
     <ListItem button={editMode} key={e[0]}>
@@ -61,8 +70,18 @@ export default function RowExpand(props) {
     setDelModalOpen(false);
   };
   const delConfirmed = (id) => {
-    Axios.delete(`${Applicants}/${id}`);
-    handleClose();
+    let auth = JSON.parse(sessionStorage.getItem("auth"));
+    Axios.delete(`${Applicants}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${auth.jwt}`,
+      },
+    })
+      .then((res) => {
+        handleClose();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -110,7 +129,7 @@ export default function RowExpand(props) {
               <Typography color="textPrimary">{`You are about to DELETE applicant ${props.rowdata._id}.`}</Typography>
               <Typography color="textPrimary">{`Fullname: ${props.rowdata.lname}, ${props.rowdata.fname} ${props.rowdata.mname}`}</Typography>
               <Typography paragraph color="textPrimary">{`Application date: ${props.rowdata.date_applied} as ${props.rowdata.applying_for}`}</Typography>
-
+              {accessPrivs()}
               <Alert severity="warning" style={{ margin: "5px" }}>
                 The GUI may not reflect the changes immediately. Reload the page if necessay.
               </Alert>

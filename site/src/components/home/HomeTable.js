@@ -10,6 +10,7 @@ import RowExpand from "./RowExpand";
 export default function HomeTable() {
   const [data, setData] = useState(null);
   const [count, setCount] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const auth = JSON.parse(sessionStorage.getItem("auth"));
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function HomeTable() {
       });
 
     // get the first portion from Database
-    Axios.get(`${Applicants}?_start=${0}&_limit=${count}&_sort=date_applied:DESC`, {
+    Axios.get(`${Applicants}?_start=${0}&_limit=${100}&_sort=date_applied:DESC`, {
       headers: {
         Authorization: `Bearer ${auth.jwt}`,
       },
@@ -45,6 +46,20 @@ export default function HomeTable() {
   const handleNewRecord = (newRecord) => {
     setData([newRecord, ...data]);
     setCount(count + 1);
+  };
+
+  const supplementData = () => {
+    Axios.get(`${Applicants}?_start=${data.length + 1}&_limit=${100}&_sort=date_applied:DESC`, {
+      headers: {
+        Authorization: `Bearer ${auth.jwt}`,
+      },
+    })
+      .then((res) => {
+        setData([...data, ...res.data]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const columns = [
@@ -213,15 +228,24 @@ export default function HomeTable() {
     customToolbar: () => {
       return <AddAppliBtn add={handleNewRecord} />;
     },
+    // Printing and Archiving
     downloadOptions: {
       filename: `ApplicantDatabase-${moment().format("DD-MMM-YYYY")}`,
       separator: ",",
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
-    rowsPerPageOptions: [10, 50, 100, count],
+    // Pagination
+    rowsPerPageOptions: [10, 50, 100],
+    rowsPerPage: rowsPerPage,
+    onChangeRowsPerPage: (nOfRows) => {
+      setRowsPerPage(nOfRows);
+    },
     count: count,
     onChangePage: (currentPage) => {
-      console.log(currentPage);
+      if (currentPage === Math.floor(data.length / rowsPerPage) - 1) {
+        console.log("supp");
+        if (data.length !== count) supplementData();
+      }
     },
   };
 
