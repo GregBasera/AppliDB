@@ -6,7 +6,6 @@ import {
   Card,
   CardContent,
   List,
-  ListItem,
   ListSubheader,
   Grid,
   Paper,
@@ -24,6 +23,7 @@ import {
 } from "@material-ui/core";
 import { Applicants } from "../../endpoints";
 import Alert from "@material-ui/lab/Alert";
+import ExpandedListItems from "./ExpandedListItems";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 function accessPrivs() {
@@ -33,21 +33,6 @@ function accessPrivs() {
   } else {
     return null;
   }
-}
-
-function renderListItems(obj, editMode) {
-  return Object.entries(obj).map((e) => (
-    <ListItem button={editMode} key={e[0]}>
-      <Grid container spacing={1}>
-        <Grid item xs={5}>
-          <Typography color="textSecondary">{e[0]}</Typography>
-        </Grid>
-        <Grid item xs={7}>
-          <Typography>{e[1]}</Typography>
-        </Grid>
-      </Grid>
-    </ListItem>
-  ));
 }
 
 export default function RowExpand(props) {
@@ -99,23 +84,23 @@ export default function RowExpand(props) {
             <Grid container spacing={2}>
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Application Details</ListSubheader>}>
-                  {renderListItems(ad(props.rowdata), editMode)}
+                  <ExpandedListItems obj={ad(props.rowdata)} editMode={editMode} />
                 </List>
                 <Divider />
                 <List dense subheader={<ListSubheader component="div">Meta Data</ListSubheader>}>
-                  {renderListItems(md(props.rowdata), editMode)}
+                  <ExpandedListItems obj={md(props.rowdata)} editMode={editMode} />
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Personal Information</ListSubheader>}>
-                  {renderListItems(pi(props.rowdata), editMode)}
+                  <ExpandedListItems obj={pi(props.rowdata)} editMode={editMode} />
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Education and Career</ListSubheader>}>
-                  {renderListItems(ec(props.rowdata), editMode)}
+                  <ExpandedListItems obj={ec(props.rowdata)} editMode={editMode} />
                 </List>
               </Grid>
             </Grid>
