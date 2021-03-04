@@ -62,7 +62,7 @@ export default function PageBody() {
           return (
             <React.Fragment>
               {/* <Button variant="outlined">Update Role</Button> */}
-              <UpdateDialog id={value} currRole={users[tableMeta.rowIndex].role.name} />
+              <UpdateDialog id={value} currRole={users[tableMeta.rowIndex].role._id} roleName={users[tableMeta.rowIndex].role.name} />
               <DeleteDialog id={value} />
             </React.Fragment>
           );
