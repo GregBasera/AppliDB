@@ -84,23 +84,23 @@ export default function RowExpand(props) {
             <Grid container spacing={2}>
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Application Details</ListSubheader>}>
-                  <ExpandedListItems obj={ad(props.rowdata)} editMode={editMode} />
+                  <ExpandedListItems obj={ad(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} />
                 </List>
                 <Divider />
                 <List dense subheader={<ListSubheader component="div">Meta Data</ListSubheader>}>
-                  <ExpandedListItems obj={md(props.rowdata)} editMode={editMode} />
+                  <ExpandedListItems obj={md(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} />
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Personal Information</ListSubheader>}>
-                  <ExpandedListItems obj={pi(props.rowdata)} editMode={editMode} />
+                  <ExpandedListItems obj={pi(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} />
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Education and Career</ListSubheader>}>
-                  <ExpandedListItems obj={ec(props.rowdata)} editMode={editMode} />
+                  <ExpandedListItems obj={ec(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} />
                 </List>
               </Grid>
             </Grid>
