@@ -4,22 +4,17 @@ import moment from "moment";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress } from "@material-ui/core";
 import { Applicants } from "../../endpoints";
+import { headers } from "../../storages";
 import AddAppliBtn from "./AddAppliBtn";
 import RowExpand from "./RowExpand";
 
 export default function HomeTable() {
   const [data, setData] = useState(null);
   const [count, setCount] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const auth = JSON.parse(sessionStorage.getItem("auth"));
 
   useEffect(() => {
     // get the number of records on the Database
-    Axios.get(`${Applicants}/count`, {
-      headers: {
-        Authorization: `Bearer ${auth.jwt}`,
-      },
-    })
+    Axios.get(`${Applicants}/count`, headers())
       .then((res) => {
         setCount(res.data);
       })
@@ -28,38 +23,29 @@ export default function HomeTable() {
       });
 
     // get the first portion from Database
-    Axios.get(`${Applicants}?_start=${0}&_limit=${100}&_sort=date_applied:DESC`, {
-      headers: {
-        Authorization: `Bearer ${auth.jwt}`,
-      },
-    })
+    Axios.get(`${Applicants}?_start=${0}&_limit=${1}&_sort=date_applied:DESC`, headers())
       .then((res) => {
         setData(res.data);
+        supplimentData(1);
       })
       .catch((err) => {
         console.log(err);
       });
+
     return () => {};
     // eslint-disable-next-line
   }, []);
 
+  const supplimentData = (start) => {
+    setTimeout(() => {
+      console.log(start, count);
+      if (start < 5) supplimentData(start + 1);
+    }, 10000);
+  };
+
   const handleNewRecord = (newRecord) => {
     setData([newRecord, ...data]);
     setCount(count + 1);
-  };
-
-  const supplementData = () => {
-    Axios.get(`${Applicants}?_start=${data.length + 1}&_limit=${100}&_sort=date_applied:DESC`, {
-      headers: {
-        Authorization: `Bearer ${auth.jwt}`,
-      },
-    })
-      .then((res) => {
-        setData([...data, ...res.data]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   const columns = [
@@ -234,19 +220,7 @@ export default function HomeTable() {
       separator: ",",
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
-    // Pagination
-    rowsPerPageOptions: [10, 50, 100],
-    rowsPerPage: rowsPerPage,
-    onChangeRowsPerPage: (nOfRows) => {
-      setRowsPerPage(nOfRows);
-    },
-    count: count,
-    onChangePage: (currentPage) => {
-      if (currentPage === Math.floor(data.length / rowsPerPage) - 1) {
-        console.log("supp");
-        if (data.length !== count) supplementData();
-      }
-    },
+    count: data ? data.length : 0,
   };
 
   return data ? <MUIDataTable title={"Applicant List"} data={data} columns={columns} options={options} /> : <CircularProgress />;
