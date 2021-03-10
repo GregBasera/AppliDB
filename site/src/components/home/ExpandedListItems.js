@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { ListItem, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import EditIcon from "@material-ui/icons/Edit";
+import Axios from "axios";
+import { Applicants } from "../../endpoints";
+import { headers } from "../../storages";
 
 const edu_attain = [
   "Graduate Studies Graduate",
@@ -20,33 +24,35 @@ const edu_attain = [
 export default function ExpandedListItems({ obj, editMode, appliID }) {
   const [field, setField] = useState(null);
   const [open, setOpen] = useState(false);
+  const [changes, setChanges] = useState(null);
   const handleOpen = (entry) => {
     setField(entry);
     setOpen(true);
   };
   const handleClose = () => {
+    setChanges(null);
     setOpen(false);
   };
 
   const fieldIndexer = (c) => {
     switch (c[0]) {
       case "date_applied":
-        return <TextField fullWidth type="date" value={c[1]} />;
+        return <TextField fullWidth type="date" name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} />;
       case "birthdate":
-        return <TextField fullWidth type="date" value={c[1]} />;
+        return <TextField fullWidth type="date" name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} />;
       case "age":
-        return <TextField fullWidth type="number" value={c[1]} />;
+        return <TextField fullWidth type="number" name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} />;
       case "serv_duration_mon":
-        return <TextField fullWidth type="number" value={c[1]} />;
+        return <TextField fullWidth type="number" name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} />;
       case "grad_year":
-        return <TextField fullWidth type="number" value={c[1]} />;
+        return <TextField fullWidth type="number" name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} />;
       case "email":
-        return <TextField fullWidth type="email" value={c[1]} />;
+        return <TextField fullWidth type="email" name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} />;
       case "sex":
         return (
           <FormControl variant="outlined" size="small" fullWidth>
             <InputLabel>Sex</InputLabel>
-            <Select name="sex" value={c[1]} label="Sex">
+            <Select name="sex" value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} label="Sex">
               <MenuItem value="Male">Male</MenuItem>
               <MenuItem value="Female">Female</MenuItem>
             </Select>
@@ -56,7 +62,7 @@ export default function ExpandedListItems({ obj, editMode, appliID }) {
         return (
           <FormControl variant="outlined" size="small" fullWidth>
             <InputLabel>Civil Status</InputLabel>
-            <Select name="civil_status" value={c[1]} label="Civil Status">
+            <Select name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} label="Civil Status">
               <MenuItem value="Single">Single</MenuItem>
               <MenuItem value="Married">Married</MenuItem>
               <MenuItem value="Separated">Separated</MenuItem>
@@ -68,7 +74,7 @@ export default function ExpandedListItems({ obj, editMode, appliID }) {
         return (
           <FormControl variant="outlined" size="small" fullWidth>
             <InputLabel>Highest Educational Attainment</InputLabel>
-            <Select name="nth_edu_attain" value={c[1]} label="Highest Educational Attainment">
+            <Select name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} label="Highest Educational Attainment">
               {edu_attain.map((e) => (
                 <MenuItem key={e} value={e}>
                   {e}
@@ -78,8 +84,23 @@ export default function ExpandedListItems({ obj, editMode, appliID }) {
           </FormControl>
         );
       default:
-        return <TextField fullWidth type="text" value={c[1]} />;
+        return <TextField fullWidth type="text" name={c[0]} value={changes ? changes[c[0]] : c[1]} onChange={changeWatcher} />;
     }
+  };
+
+  const changeWatcher = (e) => {
+    setChanges({ [e.target.name]: e.target.value });
+  };
+
+  const handleUpdate = (id) => {
+    Axios.put(`${Applicants}/${id}`, changes, headers())
+      .then((res) => {
+        console.log(res);
+        handleClose();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -111,16 +132,18 @@ export default function ExpandedListItems({ obj, editMode, appliID }) {
               <Typography color="textSecondary">{field ? field[0] : null}</Typography>
             </Grid>
             <Grid item xs={7}>
-              {/* <Typography>{field ? field[1] : null}</Typography> */}
               {field ? fieldIndexer(field) : null}
             </Grid>
           </Grid>
         </DialogContent>
+        <Alert severity="warning" style={{ margin: "10px" }}>
+          Changes may not reflect immediately. Reload the page if necessary.
+        </Alert>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             cancel
           </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button onClick={() => handleUpdate(appliID)} color="primary" autoFocus>
             update
           </Button>
         </DialogActions>

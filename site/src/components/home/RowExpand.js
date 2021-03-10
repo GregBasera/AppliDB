@@ -26,13 +26,21 @@ import Alert from "@material-ui/lab/Alert";
 import ExpandedListItems from "./ExpandedListItems";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-function accessPrivs() {
+function accessPrivsDelete() {
   let auth = JSON.parse(sessionStorage.getItem("auth"));
   if (auth.user.role.name !== "Admin") {
     return <Alert severity="error">{`Your account only has '${auth.user.role.name}' privileges. You do not have access to this feature/action.`}</Alert>;
   } else {
     return null;
   }
+}
+
+function accessPrivsUpdate() {
+  let auth = JSON.parse(sessionStorage.getItem("auth"));
+  if (auth.user.role.name !== "Admin") {
+    return false;
+  }
+  return true;
 }
 
 export default function RowExpand(props) {
@@ -77,7 +85,7 @@ export default function RowExpand(props) {
             <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />} onClick={() => setDelModalOpen(true)}>
               Delete this Applicant
             </Button>
-            <FormControlLabel control={<Switch checked={editMode} onChange={() => setEditMode(!editMode)} name="checkedA" />} label="Edit Mode" />
+            {accessPrivsUpdate() ? <FormControlLabel control={<Switch checked={editMode} onChange={() => setEditMode(!editMode)} name="checkedA" />} label="Edit Mode" /> : null}
           </CardActions>
 
           <CardContent>
@@ -114,9 +122,9 @@ export default function RowExpand(props) {
               <Typography color="textPrimary">{`You are about to DELETE applicant ${props.rowdata._id}.`}</Typography>
               <Typography color="textPrimary">{`Fullname: ${props.rowdata.lname}, ${props.rowdata.fname} ${props.rowdata.mname}`}</Typography>
               <Typography paragraph color="textPrimary">{`Application date: ${props.rowdata.date_applied} as ${props.rowdata.applying_for}`}</Typography>
-              {accessPrivs()}
+              {accessPrivsDelete()}
               <Alert severity="warning" style={{ margin: "5px" }}>
-                The GUI may not reflect the changes immediately. Reload the page if necessay.
+                The GUI may not reflect the changes immediately. Reload the page if necessary.
               </Alert>
               <Alert severity="error" style={{ margin: "5px" }}>
                 THIS CAN NOT BE UNDONE!

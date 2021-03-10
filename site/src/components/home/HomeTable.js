@@ -26,7 +26,6 @@ export default function HomeTable() {
     Axios.get(`${Applicants}?_start=${0}&_limit=${1}&_sort=date_applied:DESC`, headers())
       .then((res) => {
         setData(res.data);
-        supplimentData(1);
       })
       .catch((err) => {
         console.log(err);
@@ -35,13 +34,6 @@ export default function HomeTable() {
     return () => {};
     // eslint-disable-next-line
   }, []);
-
-  const supplimentData = (start) => {
-    setTimeout(() => {
-      console.log(start, count);
-      if (start < 5) supplimentData(start + 1);
-    }, 10000);
-  };
 
   const handleNewRecord = (newRecord) => {
     setData([newRecord, ...data]);

@@ -23,7 +23,7 @@ function accessPrivs(currPath) {
     return (
       <Link to={currPath === "/home" ? "/admin" : "/home"} replace style={{ textDecoration: "none", color: "white" }}>
         <Button color="inherit" startIcon={currPath === "/home" ? <PersonIcon /> : <HomeIcon />}>
-          {currPath === "/home" ? "admin" : "home"}
+          {currPath === "/home" ? "admin panel" : "home"}
         </Button>
       </Link>
     );
