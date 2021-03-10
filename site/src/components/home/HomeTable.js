@@ -23,9 +23,12 @@ export default function HomeTable() {
       });
 
     // get the first portion from Database
-    Axios.get(`${Applicants}?_start=${0}&_limit=${1}&_sort=date_applied:DESC`, headers())
+    Axios.get(`${Applicants}?_start=${0}&_limit=${100}&_sort=date_applied:DESC`, headers())
       .then((res) => {
         setData(res.data);
+      })
+      .then(() => {
+        bgFetch(101);
       })
       .catch((err) => {
         console.log(err);
@@ -34,6 +37,13 @@ export default function HomeTable() {
     return () => {};
     // eslint-disable-next-line
   }, []);
+
+  const bgFetch = (start) => {
+    console.log("fetch");
+    setTimeout(() => {
+      console.log(data); // data is null
+    }, 10000);
+  };
 
   const handleNewRecord = (newRecord) => {
     setData([newRecord, ...data]);
