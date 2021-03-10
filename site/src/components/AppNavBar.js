@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import PersonIcon from "@material-ui/icons/Person";
 import HomeIcon from "@material-ui/icons/Home";
 
@@ -27,17 +27,18 @@ function accessPrivs(currPath) {
         </Button>
       </Link>
     );
-  } else {
-    return null;
   }
+  return null;
 }
 
 export default function AppNavBar() {
   const classes = useStyles();
 
+  let history = useHistory();
   const handleLogout = () => {
     sessionStorage.removeItem("auth");
     // your session was deleted. Please reload the page and log back in.
+    history.replace("/auth");
   };
 
   return (

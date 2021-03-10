@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { CardContent, CardActions, TextField, Button } from "@material-ui/core";
+import { CardContent, CardActions, TextField, Button, CircularProgress } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
 import { Register } from "../../endpoints";
@@ -10,6 +10,7 @@ function buildAlert(alert) {
 }
 
 export default function Signup() {
+  const [pending, setPending] = useState(false);
   const [alert, setAlert] = useState({ enable: false, severity: null, msg: null });
   const [signup, setSignup] = useState({
     username: "",
@@ -24,6 +25,7 @@ export default function Signup() {
 
   let history = useHistory();
   const handleSignup = () => {
+    setPending(true);
     setAlert({ ...alert, enable: false });
     let isFilledOut = true;
     Object.entries(signup).forEach((q) => {
@@ -34,10 +36,12 @@ export default function Signup() {
     if (isFilledOut) {
       Axios.post(Register, signup)
         .then((res) => {
+          setPending(false);
           sessionStorage.setItem("auth", JSON.stringify(res.data));
           history.push("/home");
         })
         .catch((err) => {
+          setPending(false);
           setAlert({ enable: true, severity: "error", msg: err.response.data.message[0].messages[0].message });
         });
     } else {
@@ -57,7 +61,14 @@ export default function Signup() {
       {alert.enable ? buildAlert(alert) : null}
 
       <CardActions>
-        <Button variant="contained" size="large" color="primary" onClick={handleSignup} fullWidth disableFocusRipple>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          onClick={handleSignup}
+          startIcon={pending ? <CircularProgress color="inherit" size={15} /> : null}
+          fullWidth
+          disableFocusRipple>
           Signup
         </Button>
       </CardActions>

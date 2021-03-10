@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
-import { CardContent, CardActions, TextField, Button } from "@material-ui/core";
+import { CardContent, CardActions, TextField, Button, CircularProgress } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router-dom";
 import { Auth } from "../../endpoints";
@@ -10,6 +10,7 @@ function buildAlert(alert) {
 }
 
 export default function Login() {
+  const [pending, setPending] = useState(false);
   const [alert, setAlert] = useState({ enable: false, severity: null, msg: null });
   const [login, setLogin] = useState({
     identifier: "",
@@ -22,6 +23,7 @@ export default function Login() {
   let history = useHistory();
   const handleLogin = () => {
     setAlert({ ...alert, enable: false });
+    setPending(true);
     let isFilledOut = true;
     Object.entries(login).forEach((q) => {
       if (q[1] === "") isFilledOut = false;
@@ -30,11 +32,13 @@ export default function Login() {
     if (isFilledOut) {
       Axios.post(Auth, login)
         .then((res) => {
+          setPending(false);
           sessionStorage.setItem("auth", JSON.stringify(res.data));
           history.push("/home");
         })
         .catch((err) => {
           console.error(err);
+          setPending(false);
           setAlert({ enable: true, severity: "error", msg: err.response.data.message[0].messages[0].message });
         });
     } else {
@@ -52,7 +56,14 @@ export default function Login() {
       {alert.enable ? buildAlert(alert) : null}
 
       <CardActions>
-        <Button variant="contained" size="large" color="primary" onClick={handleLogin} fullWidth disableFocusRipple>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          onClick={handleLogin}
+          startIcon={pending ? <CircularProgress color="inherit" size={15} /> : null}
+          fullWidth
+          disableFocusRipple>
           Log In
         </Button>
       </CardActions>

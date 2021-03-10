@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
+import moment from "moment";
 import MUIDataTable from "mui-datatables";
 import { CircularProgress, Container } from "@material-ui/core";
 import DeleteDialog from "./DeleteDialog";
@@ -31,6 +32,16 @@ export default function PageBody() {
       name: "_id",
       label: "User ID",
       options: { filter: false, sort: false },
+    },
+    {
+      name: "createdAt",
+      label: "Date Created",
+      options: {
+        filter: false,
+        customBodyRender: (value, tableMeta, updateValue) => {
+          return moment(value).format("MMM DD, YYYY - hh:mm A");
+        },
+      },
     },
     {
       name: "username",
