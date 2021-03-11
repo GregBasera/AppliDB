@@ -27,6 +27,18 @@ export default function PageBody() {
     return () => {}; // cleanup
   }, []);
 
+  const handleDelete = (id) => {
+    let q = [...users];
+    q.splice(q.map((e) => e._id).indexOf(id), 1);
+    setUsers(q);
+  };
+
+  const handleUpdate = (updated) => {
+    let q = [...users];
+    q.splice(q.map((e) => e._id).indexOf(updated.id), 1, updated);
+    setUsers(q);
+  };
+
   const columns = [
     {
       name: "_id",
@@ -73,8 +85,8 @@ export default function PageBody() {
           return (
             <React.Fragment>
               {/* <Button variant="outlined">Update Role</Button> */}
-              <UpdateDialog id={value} currRole={users[tableMeta.rowIndex].role._id} roleName={users[tableMeta.rowIndex].role.name} />
-              <DeleteDialog id={value} />
+              <UpdateDialog id={value} currRole={users[tableMeta.rowIndex].role._id} roleName={users[tableMeta.rowIndex].role.name} upd={handleUpdate} />
+              <DeleteDialog id={value} del={handleDelete} />
             </React.Fragment>
           );
         },

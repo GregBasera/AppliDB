@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ListItem, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
+// import { Alert } from "@material-ui/lab";
 import EditIcon from "@material-ui/icons/Edit";
 import Axios from "axios";
 import { Applicants } from "../../endpoints";
@@ -21,7 +21,7 @@ const edu_attain = [
   "Elementary Under-Graduate",
 ];
 
-export default function ExpandedListItems({ obj, editMode, appliID }) {
+export default function ExpandedListItems({ obj, editMode, appliID, upd }) {
   const [field, setField] = useState(null);
   const [open, setOpen] = useState(false);
   const [changes, setChanges] = useState(null);
@@ -95,7 +95,7 @@ export default function ExpandedListItems({ obj, editMode, appliID }) {
   const handleUpdate = (id) => {
     Axios.put(`${Applicants}/${id}`, changes, headers())
       .then((res) => {
-        console.log(res);
+        upd(res.data);
         handleClose();
       })
       .catch((err) => {
@@ -136,9 +136,6 @@ export default function ExpandedListItems({ obj, editMode, appliID }) {
             </Grid>
           </Grid>
         </DialogContent>
-        <Alert severity="warning" style={{ margin: "10px" }}>
-          Changes may not reflect immediately. Reload the page if necessary.
-        </Alert>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             cancel

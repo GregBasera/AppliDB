@@ -37,7 +37,7 @@ function accessPrivsDelete() {
 
 function accessPrivsUpdate() {
   let auth = JSON.parse(sessionStorage.getItem("auth"));
-  if (auth.user.role.name !== "Admin") {
+  if (auth.user.role.name === "Staff") {
     return false;
   }
   return true;
@@ -70,6 +70,7 @@ export default function RowExpand(props) {
       },
     })
       .then((res) => {
+        props.del(res.data._id);
         handleClose();
       })
       .catch((err) => {
@@ -92,23 +93,23 @@ export default function RowExpand(props) {
             <Grid container spacing={2}>
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Application Details</ListSubheader>}>
-                  <ExpandedListItems obj={ad(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} />
+                  <ExpandedListItems obj={ad(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} upd={props.upd} />
                 </List>
                 <Divider />
                 <List dense subheader={<ListSubheader component="div">Meta Data</ListSubheader>}>
-                  <ExpandedListItems obj={md(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} />
+                  <ExpandedListItems obj={md(props.rowdata)} editMode={false} appliID={props.rowdata._id} />
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Personal Information</ListSubheader>}>
-                  <ExpandedListItems obj={pi(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} />
+                  <ExpandedListItems obj={pi(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} upd={props.upd} />
                 </List>
               </Grid>
 
               <Grid item xs={4} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Education and Career</ListSubheader>}>
-                  <ExpandedListItems obj={ec(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} />
+                  <ExpandedListItems obj={ec(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} upd={props.upd} />
                 </List>
               </Grid>
             </Grid>
@@ -123,9 +124,6 @@ export default function RowExpand(props) {
               <Typography color="textPrimary">{`Fullname: ${props.rowdata.lname}, ${props.rowdata.fname} ${props.rowdata.mname}`}</Typography>
               <Typography paragraph color="textPrimary">{`Application date: ${props.rowdata.date_applied} as ${props.rowdata.applying_for}`}</Typography>
               {accessPrivsDelete()}
-              <Alert severity="warning" style={{ margin: "5px" }}>
-                The GUI may not reflect the changes immediately. Reload the page if necessary.
-              </Alert>
               <Alert severity="error" style={{ margin: "5px" }}>
                 THIS CAN NOT BE UNDONE!
               </Alert>

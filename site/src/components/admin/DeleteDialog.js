@@ -18,7 +18,7 @@ export default function DeleteDialog(props) {
       },
     })
       .then((res) => {
-        console.log(res);
+        props.del(res.data._id);
         handleClose();
       })
       .catch((err) => {

@@ -29,10 +29,10 @@ const eligibilities = [
   "Local Treasury Office Examination",
   "PD 907 (Honor Grad Eligibility)",
   "MC 11, S. 96",
-  "Tesda NC I",
-  "Tesda NC II",
-  "Tesda NC III",
-  "Tesda NC IV",
+  "Tesda NC 1",
+  "Tesda NC 2",
+  "Tesda NC 3",
+  "Tesda NC 4",
   "Others",
 ];
 const edu_attain = [

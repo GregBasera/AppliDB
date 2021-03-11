@@ -45,7 +45,6 @@ export default function HomeTable() {
   }, [data]);
 
   const bgFetch = async () => {
-    console.log("fetch");
     let suple = await Axios.get(`${Applicants}?_start=${data.length}&_limit=${packetSize}&_sort=date_applied:DESC`, headers());
     setData([...data, ...suple.data]);
   };
@@ -53,6 +52,19 @@ export default function HomeTable() {
   const handleNewRecord = (newRecord) => {
     setData([newRecord, ...data]);
     setCount(count + 1);
+  };
+
+  const handleDelete = (id) => {
+    let q = [...data];
+    q.splice(q.map((e) => e._id).indexOf(id), 1);
+    setData(q);
+    setCount(count - 1);
+  };
+
+  const handleUpdate = (updated) => {
+    let q = [...data];
+    q.splice(q.map((e) => e._id).indexOf(updated.id), 1, updated);
+    setData(q);
   };
 
   const columns = [
@@ -216,7 +228,7 @@ export default function HomeTable() {
     // resizableColumns: true,
     expandableRowsOnClick: true,
     renderExpandableRow: (rowData, rowMeta) => {
-      return <RowExpand colSpan={rowData.length + 1} rowdata={data[rowMeta.dataIndex]} />;
+      return <RowExpand colSpan={rowData.length + 1} rowdata={data[rowMeta.dataIndex]} del={handleDelete} upd={handleUpdate} />;
     },
     customToolbar: () => {
       return <AddAppliBtn add={handleNewRecord} />;
@@ -227,10 +239,9 @@ export default function HomeTable() {
       separator: ",",
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
-    count: data ? data.length : 0,
+    // count: data ? data.length : 0,
     onTableInit: (action, tableState) => {
       bgFetch();
-      console.log("table init");
     },
   };
 

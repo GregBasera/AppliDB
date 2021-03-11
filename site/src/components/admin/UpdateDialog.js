@@ -49,7 +49,7 @@ export default function UpdateDialog(props) {
       }
     )
       .then((res) => {
-        console.log(res);
+        props.upd(res.data);
         handleClose();
       })
       .catch((err) => {
