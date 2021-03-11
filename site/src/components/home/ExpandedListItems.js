@@ -6,6 +6,37 @@ import Axios from "axios";
 import { Applicants } from "../../endpoints";
 import { headers } from "../../storages";
 
+const colNameLookUp = {
+  date_applied: "Date Applied",
+  applying_for: "Applying for",
+  referral: "Referral",
+  appli_status: "Application Status",
+  _id: "Database ID",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt",
+  lname: "Lastname",
+  fname: "Firstname",
+  mname: "Middlename",
+  sex: "Sex",
+  civil_status: "Civil Status",
+  birthdate: "Birthdate",
+  age: "Age",
+  birthplace: "Birthplace",
+  contact_num: "Contact Number",
+  email: "E-mail",
+  resi_address: "Residential Addr",
+  perm_address: "Permanent Addr",
+  nth_edu_attain: "Educational Level",
+  school: "School",
+  acad_track: "Academic Track",
+  grad_year: "Graduation Year",
+  achieve: "Achievements",
+  last_employer: "Last Employer",
+  position_held: "Position Held",
+  serv_duration_mon: "Service Duration",
+  eligibility: "Eligibilities",
+};
+
 const edu_attain = [
   "Graduate Studies Graduate",
   "Graduate Studies Under-Graduate",
@@ -111,10 +142,10 @@ export default function ExpandedListItems({ obj, editMode, appliID, upd }) {
             <Grid item xs={5}>
               {editMode ? (
                 <Button size="small" color="default" startIcon={<EditIcon />} onClick={() => handleOpen(e)}>
-                  {e[0]}
+                  {colNameLookUp[e[0]]}
                 </Button>
               ) : (
-                <Typography color="textSecondary">{e[0]}</Typography>
+                <Typography color="textSecondary">{colNameLookUp[e[0]]}</Typography>
               )}
             </Grid>
             <Grid item xs={7}>
