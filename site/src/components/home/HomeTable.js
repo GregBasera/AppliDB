@@ -9,6 +9,7 @@ import AddAppliBtn from "./AddAppliBtn";
 import RowExpand from "./RowExpand";
 
 export default function HomeTable() {
+  const packetSize = 100;
   const [data, setData] = useState(null);
   const [count, setCount] = useState(0);
 
@@ -23,12 +24,9 @@ export default function HomeTable() {
       });
 
     // get the first portion from Database
-    Axios.get(`${Applicants}?_start=${0}&_limit=${100}&_sort=date_applied:DESC`, headers())
+    Axios.get(`${Applicants}?_start=${0}&_limit=${packetSize}&_sort=date_applied:DESC`, headers())
       .then((res) => {
         setData(res.data);
-      })
-      .then(() => {
-        bgFetch(101);
       })
       .catch((err) => {
         console.log(err);
@@ -38,11 +36,18 @@ export default function HomeTable() {
     // eslint-disable-next-line
   }, []);
 
-  const bgFetch = (start) => {
+  useEffect(() => {
+    if (data !== null && data.length !== packetSize) {
+      if (data.length < count) bgFetch();
+    }
+    return () => {};
+    // eslint-disable-next-line
+  }, [data]);
+
+  const bgFetch = async () => {
     console.log("fetch");
-    setTimeout(() => {
-      console.log(data); // data is null
-    }, 10000);
+    let suple = await Axios.get(`${Applicants}?_start=${data.length}&_limit=${packetSize}&_sort=date_applied:DESC`, headers());
+    setData([...data, ...suple.data]);
   };
 
   const handleNewRecord = (newRecord) => {
@@ -223,6 +228,10 @@ export default function HomeTable() {
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
     count: data ? data.length : 0,
+    onTableInit: (action, tableState) => {
+      bgFetch();
+      console.log("table init");
+    },
   };
 
   return data ? <MUIDataTable title={"Applicant List"} data={data} columns={columns} options={options} /> : <CircularProgress />;
