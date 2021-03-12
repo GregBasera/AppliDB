@@ -113,6 +113,10 @@
     },
     "achieve": {
       "type": "string"
+    },
+    "encoder": {
+      "type": "string",
+      "required": true
     }
   }
 }

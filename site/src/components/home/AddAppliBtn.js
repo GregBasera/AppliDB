@@ -278,8 +278,11 @@ export default function AddAppliBtn(props) {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={9}>
               {plainTextField("text", "Application Status / Remarks", "appli_status", formData.appli_status ?? "", handelFormChange)}
+            </Grid>
+            <Grid item xs={3}>
+              {plainTextField("text", "Encoder", "encoder", formData.encoder ?? JSON.parse(sessionStorage.getItem("auth")).user.username, handelFormChange)}
             </Grid>
           </Grid>
         </DialogContent>

@@ -206,6 +206,11 @@ export default function HomeTable() {
       options: { filter: false, display: false },
     },
     {
+      name: "eligibility",
+      label: "Eligibility(s)",
+      options: { display: false },
+    },
+    {
       name: "appli_status",
       label: "Status of Application",
       options: { filter: false, display: false },
@@ -215,11 +220,19 @@ export default function HomeTable() {
       label: "Where did you find us?",
       options: { display: false },
     },
+    {
+      name: "encoder",
+      label: "Encoder",
+      options: { display: false },
+    },
   ];
 
   const options = {
     // filterType: "checkbox",
     elevation: 0,
+    setTableProps: () => {
+      return { size: "small" };
+    },
     expandableRows: true,
     draggableColumns: {
       enabled: true,
@@ -240,6 +253,8 @@ export default function HomeTable() {
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
     // count: data ? data.length : 0,
+    rowsPerPage: 15,
+    rowsPerPageOptions: [10, 15, 50, 100, count],
     onTableInit: (action, tableState) => {
       bgFetch();
     },

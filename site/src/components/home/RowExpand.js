@@ -26,20 +26,18 @@ import Alert from "@material-ui/lab/Alert";
 import ExpandedListItems from "./ExpandedListItems";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-function accessPrivsDelete() {
-  let auth = JSON.parse(sessionStorage.getItem("auth"));
-  if (auth.user.role.name !== "Admin") {
-    return <Alert severity="error">{`Your account only has '${auth.user.role.name}' privileges. You do not have access to this feature/action.`}</Alert>;
-  } else {
-    return null;
-  }
-}
+// function accessPrivsDelete() {
+//   let auth = JSON.parse(sessionStorage.getItem("auth"));
+//   if (auth.user.role.name !== "Admin") {
+//     return <Alert severity="error">{`Your account only has '${auth.user.role.name}' privileges. You do not have access to this feature/action.`}</Alert>;
+//   } else {
+//     return null;
+//   }
+// }
 
-function accessPrivsUpdate() {
+function accessPrivs() {
   let auth = JSON.parse(sessionStorage.getItem("auth"));
-  if (auth.user.role.name === "Staff") {
-    return false;
-  }
+  if (auth.user.role.name !== "Admin") return false;
   return true;
 }
 
@@ -83,10 +81,12 @@ export default function RowExpand(props) {
       <TableCell colSpan={props.colSpan}>
         <Card variant="outlined">
           <CardActions>
-            <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />} onClick={() => setDelModalOpen(true)}>
-              Delete this Applicant
-            </Button>
-            {accessPrivsUpdate() ? <FormControlLabel control={<Switch checked={editMode} onChange={() => setEditMode(!editMode)} name="checkedA" />} label="Edit Mode" /> : null}
+            {accessPrivs() ? (
+              <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />} onClick={() => setDelModalOpen(true)}>
+                Delete this Applicant
+              </Button>
+            ) : null}
+            {accessPrivs() ? <FormControlLabel control={<Switch checked={editMode} onChange={() => setEditMode(!editMode)} name="checkedA" />} label="Edit Mode" /> : null}
           </CardActions>
 
           <CardContent>
@@ -123,7 +123,6 @@ export default function RowExpand(props) {
               <Typography color="textPrimary">{`You are about to DELETE applicant ${props.rowdata._id}.`}</Typography>
               <Typography color="textPrimary">{`Fullname: ${props.rowdata.lname}, ${props.rowdata.fname} ${props.rowdata.mname}`}</Typography>
               <Typography paragraph color="textPrimary">{`Application date: ${props.rowdata.date_applied} as ${props.rowdata.applying_for}`}</Typography>
-              {accessPrivsDelete()}
               <Alert severity="error" style={{ margin: "5px" }}>
                 THIS CAN NOT BE UNDONE!
               </Alert>
