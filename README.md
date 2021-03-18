@@ -63,31 +63,46 @@ Remember that newly created _Users_ is considered as a _Visitor_ until an Admin 
 
 ![home-page](./site/public/user-manual-imgs/home-page.png "home-page")
 
-This is where majority of the controls exist. First of all, the table. Since there is not alot of space to display all the data, the table is made to _expand_ upon request. Simply click the row you want to know more about and it will expand to show all hidden data.
+This is where majority of the controls exist.
+
+First of all, the table. Since there is not alot of space to display all the data, the table is made to _expand_ upon request. Simply click the row you want to know more about, and it will expand to show all hidden data.
 
 ![expanded-home-page](./site/public/user-manual-imgs/expanded-home-page.png "expanded-home-page")
 
-From this expanded form you will be able to **delete** and/or **update** the selected applicant (Only an _Admin_ is allowed to Update and Delete applicants).
+From this expanded form, you will be able to **delete** and/or **update** the selected applicant (Only an _Admin_ is allowed to Update and Delete applicants).
 
 Looking at the top-right of the page, there are a few buttons/actions that could be done.
 
 ![top-right-controls-labeled](./site/public/user-manual-imgs/top-right-controls-labeled.png "top-right-controls-labeled")
 
-| Letter | Name          | Description                       |
-| :----: | :------------ | :-------------------------------- |
-|   A    | Logout        | This will logout the current user |
-|   B    | Admin Panel   | [description](#admin-panel)       |
-|   C    | Add Applicant | [description](#add-applicant)     |
-|   D    | Filter        | ?                                 |
-|   E    | Columns       | ?                                 |
-|   F    | Print         | Print the displayed data in HTML  |
-|   G    | Download      | ?                                 |
-|   H    | Search        | ?                                 |
-|   I    | Column Title  | ?                                 |
+| Letter | Name          | Description                             |
+| :----: | :------------ | :-------------------------------------- |
+|   A    | Logout        | This will logout the current user       |
+|   B    | Admin Panel   | [description](#admin-panel)             |
+|   C    | Add Applicant | [description](#add-applicant)           |
+|   D    | Filter        | [description](#filter)                  |
+|   E    | Columns       | Select the columns the table displays   |
+|   F    | Print         | Print the displayed data as HTML        |
+|   G    | Download      | [description](#download)                |
+|   H    | Search        | Search the database for a term          |
+|   I    | Column Title  | Column Titles are clickable for Sorting |
+
+There are also a few controls and indicators in the bottom-left
+
+![bottom-right-controls-labeled](./site/public/user-manual-imgs/bottom-right-controls-labeled.png "bottom-right-controls-labeled")
+
+| Letter | Name      | Description                                   |
+| :----: | :-------- | :-------------------------------------------- |
+|   J    | Table Nav | Used to flip through table pages              |
+|   L    | Records   | The total number of records in the database   |
+|   M    | Showing   | Indicates what the table is currently showing |
+|   N    | Columns   | Choose the number of applicants shown at once |
+
+---
 
 ### Admin Panel
 
-The Admin Panel is where an Admin can **change** a user's current role, **delete** a certain user, and **see** all user who are accessing/have access to the system. The button to go the admin panel will not be vissible to users without the admin role.
+The Admin Panel is where an Admin can **change** a user's current role, **delete** a certain user, and **see** all user who have access to the system. The button to go the admin panel will not be vissible to users without the admin role.
 
 ![admin-page](./site/public/user-manual-imgs/admin-page.png "admin-page")
 
@@ -97,6 +112,14 @@ The Add Applicant Dialog is where you can add an applicant to the database. Be m
 
 ![add-applicant-dialog](./site/public/user-manual-imgs/add-applicant-dialog.png "add-applicant-dialog")
 
-![bottom-right-controls-labeled](./site/public/user-manual-imgs/bottom-right-controls-labeled.png "bottom-right-controls-labeled")
-![home-page](./site/public/user-manual-imgs/home-page.png "home-page")
-![expanded-home-page](./site/public/user-manual-imgs/expanded-home-page.png "expanded-home-page")
+### Filter
+
+There are only a few columns you can filter. Be careful formatting fields that accepts the 'text' datatype (Ex. "Tagkawayan, Quezon" and "Tagkawayan Quezon" are different and would be considered as 2 options for filtering).
+
+Filtering is affected by _pagination_ (the table can only filter the data it has). And pagination is affected by the API calls and the responses the system makes. [ API calls > Pagination > Filtering ]
+
+There are optimizations in place to help with the API calls, but it is not as solid, so watch out.
+
+### Download
+
+This is the preferred action when **printing reports** and **archiving** because it outputs CSV files, which has a small file size, and could then be opened in Microsoft Excel so it could be styled accordingly.
