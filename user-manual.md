@@ -114,7 +114,7 @@ There are only a few columns you can filter, for the reason that some fields sto
 
 Be careful formatting fields that accepts the 'text' datatype (Ex. "Tagkawayan, Quezon" and "Tagkawayan Quezon" are considered different and would be rendered as 2 seperate options for filtering).
 
-Filtering is affected by _pagination_ (the table can only filter the data it has see ???). And pagination is affected by the API calls and the responses the system makes. [ API calls > Pagination > Filtering ]
+Filtering is affected by _pagination_ (the table can only filter the data it has. And pagination is affected by the API calls and the responses the system makes. [ API calls >>> Pagination >>> Filter, Sort, Search, Print ]. See [Bugs and Flaws](#bugs-and-flaws))
 
 There are optimizations in place to help with the API calls, but it is not as solid, so watch out.
 

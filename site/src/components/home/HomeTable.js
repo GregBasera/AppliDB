@@ -244,7 +244,8 @@ export default function HomeTable() {
       return <RowExpand colSpan={rowData.length + 1} rowdata={data[rowMeta.dataIndex]} del={handleDelete} upd={handleUpdate} />;
     },
     customToolbar: () => {
-      return <AddAppliBtn add={handleNewRecord} />;
+      // return <AddAppliBtn add={handleNewRecord} />;
+      return <CircularProgress size={20} />;
     },
     // Printing and Archiving
     downloadOptions: {
