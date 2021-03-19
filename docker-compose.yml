@@ -1,5 +1,29 @@
 version: "3"
 services:
+  # reactjs:
+  #   image: nginx
+  #   volumes: # BUILD REACTJS FIRST, YOU PEPEGA
+  #     - "./site/build:/usr/share/nginx/html"
+  #   ports:
+  #     - "3000:80"
+  #   depends_on:
+  #     - strapi
+  nginx:
+    image: ghcr.io/linuxserver/nginx
+    container_name: static_react
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+    volumes:
+      - ./site/build:/config/www
+    ports:
+      - 3080:80
+      - 3443:443
+    depends_on:
+      - strapi
+    restart: unless-stopped
+
   strapi:
     image: strapi/strapi
     environment:
