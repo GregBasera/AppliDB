@@ -105,7 +105,7 @@ export default function AddAppliBtn(props) {
     setOpen(false);
   };
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ encoder: JSON.parse(sessionStorage.getItem("auth")).user.username });
   const handelFormChange = (e) => {
     switch (e.target.name) {
       case "eligibility":
@@ -282,7 +282,7 @@ export default function AddAppliBtn(props) {
               {plainTextField("text", "Application Status / Remarks", "appli_status", formData.appli_status ?? "", handelFormChange)}
             </Grid>
             <Grid item xs={3}>
-              {plainTextField("text", "Encoder", "encoder", formData.encoder ?? JSON.parse(sessionStorage.getItem("auth")).user.username, handelFormChange)}
+              {plainTextField("text", "Encoder", "encoder", formData.encoder, handelFormChange)}
             </Grid>
           </Grid>
         </DialogContent>

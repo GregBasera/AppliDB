@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
 import MUIDataTable from "mui-datatables";
-import { CircularProgress } from "@material-ui/core";
+import { CircularProgress, Tooltip, IconButton } from "@material-ui/core";
 import { Applicants } from "../../endpoints";
 import { headers } from "../../storages";
 import AddAppliBtn from "./AddAppliBtn";
 import RowExpand from "./RowExpand";
 
 export default function HomeTable() {
-  const packetSize = 100;
+  const packetSize = 1;
   const [data, setData] = useState(null);
   const [count, setCount] = useState(0);
+  const [tableReady, setTableReady] = useState(false);
 
   useEffect(() => {
     // get the number of records on the Database
@@ -38,7 +39,12 @@ export default function HomeTable() {
 
   useEffect(() => {
     if (data !== null && data.length !== packetSize) {
-      if (data.length < count) bgFetch();
+      if (data.length < count) {
+        bgFetch();
+        setTableReady(false);
+      } else {
+        setTableReady(true);
+      }
     }
     return () => {};
     // eslint-disable-next-line
@@ -245,7 +251,15 @@ export default function HomeTable() {
     },
     customToolbar: () => {
       // return <AddAppliBtn add={handleNewRecord} />;
-      return <CircularProgress size={20} />;
+      return tableReady ? (
+        <AddAppliBtn add={handleNewRecord} />
+      ) : (
+        <Tooltip title={"Add an Applicant"}>
+          <IconButton>
+            <CircularProgress size={16} />
+          </IconButton>
+        </Tooltip>
+      );
     },
     // Printing and Archiving
     downloadOptions: {
