@@ -1,23 +1,24 @@
 version: "3"
 services:
-  # nginx:
-  #   image: ghcr.io/linuxserver/nginx
-  #   container_name: static_react
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Asia/Manila
-  #   volumes:
-  #     - ./site/build:/config/www
-  #   ports:
-  #     - 3080:80
-  #     - 3443:443
-  #   depends_on:
-  #     - strapi
-  #   restart: unless-stopped
+  nginx:
+    image: ghcr.io/linuxserver/nginx
+    container_name: AppliDB-static_react
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+    volumes:
+      - ./site/build:/config/www
+    ports:
+      - 3080:80
+      - 3443:443
+    depends_on:
+      - strapi
+    restart: unless-stopped
 
   strapi:
     image: strapi/strapi
+    container_name: AppliDB-strapi
     environment:
       DATABASE_CLIENT: mongo
       DATABASE_NAME: strapi
@@ -28,15 +29,18 @@ services:
     volumes:
       - ./strapi:/srv/app
     ports:
-      - "1337:1337"
+      - 1337:1337
     depends_on:
       - mongo
+    restart: unless-stopped
 
   mongo:
     image: mongo
+    container_name: AppliDB-mongo
     environment:
       MONGO_INITDB_DATABASE: strapi
       MONGO_INITDB_ROOT_USERNAME: strapi
       MONGO_INITDB_ROOT_PASSWORD: strapi
     volumes:
       - ./data:/data/db
+    restart: unless-stopped

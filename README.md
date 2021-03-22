@@ -4,6 +4,19 @@
 
 A Database system for the applicants of LGU-Tagkawayan Human Resource Management Office.
 
+## Technologies Used
+
+- NodeJS (npm)
+- ReactJS
+- Material-UI
+- mui-datatables
+- axios
+- momentJS
+- Docker (docker-compose)
+- Nginx
+- Strapi
+- MongoDB
+
 ## Usage
 
 - Install `Docker` and `docker-compose`
@@ -27,6 +40,14 @@ A Database system for the applicants of LGU-Tagkawayan Human Resource Management
   - You will need to further configure **Strapi** and its roles, its on `http://<server's-IP-address>:1337/`
   - You might also need to reconfigure the endpoints **ReactJS** uses to communicate with **Strapi**, simply edit `AppliDB/site/src/endpoints.js` to your liking.
 - A `user-manual.md` is provided inside this repository explaining the UI and some technical stuff.
+
+---
+
+### Bugs and Flaws
+
+- Frontend is designed to pull **ALL** records from the backend upon launch and page reloads.
+  - Pros: Easy Filtering, Sorting, Searching
+  - Cons: Requires good client-side hardware
 
 ---
 

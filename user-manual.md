@@ -49,7 +49,7 @@ This project uses **MongoDB** as its backend, **Strapi** as its API server, and 
 
 ## Frontend and Controls (ReactJS)
 
-When configured correctly, the system could be seen in a browser with the link `http://<server-IP>:3000`. You can either `log-in` or `sign-up`.
+When configured correctly, the system could be seen in a browser with the link `http://<server-IP>:3080`. You can either `log-in` or `sign-up`.
 
 ![login-page](./site/public/user-manual-imgs/login-page.png "login-page")
 
@@ -110,20 +110,15 @@ The Add Applicant Dialog is where you can add an applicant to the database. Be m
 
 ### Filter
 
-There are only a few columns you can filter, for the reason that some fields stores unique data formats, this will only affect the effectivity of the filter feature.
+There are only a few columns you can filter because some fields stores unique data formats and is not worth filtering.
 
-Be careful formatting fields that accepts the 'text' datatype (Ex. "Tagkawayan, Quezon" and "Tagkawayan Quezon" are considered different and would be rendered as 2 seperate options for filtering).
-
-Filtering is affected by _pagination_ (the table can only filter the data it has. And pagination is affected by the API calls and the responses the system makes. [ API calls >>> Pagination >>> Filter, Sort, Search, Print ]. See [Bugs and Flaws](#bugs-and-flaws))
-
-There are optimizations in place to help with the API calls, but it is not as solid, so watch out.
+Filtering **Eligibilities**, **Residential Address**, and **Permanent Address** should be done in the _Search_ feature. These fields are formated as _array of values_, using the _Filter_ feature on this format might produce inaccurate results.
 
 ### Download
 
-This is the preferred action when **printing reports** and **archiving** because it outputs CSV files. CSV files are preferred because it has a relatively small file size, and it can be opened and edited in Microsoft Excel where it could be styled and printed accordingly.
+This is the preferred action when **printing reports** and **archiving data** because it outputs CSV files. CSV files are preferred because it has a relatively small file size, and it can be opened and edited in _Microsoft Excel_ where it could be styled and printed accordingly.
 
----
+### System behaviors to watch out for
 
-### Bugs and Flaws
-
-- One of the problems faced by databases that will be scaled to store growing amounts of data is the problem of data presentation. In a _client-server_ systems like this, the data is stored in the _server_, batches of data is then thrown to the _client_ so it can be displayed in a meaningful way (this includes Sorting, Filtering, and Searching). The problem comes when the client struggles to load the data the server throws.
+- Be careful formatting fields that accepts the 'text' datatype (Ex. "Tagkawayan, Quezon" and "Tagkawayan Quezon" are considered different and would be rendered as 2 seperate options for filtering).
+- The _Print_ feature only prints the HTML version of the table. This can become problematic when printing several visible columns. See [Download](#download) for an alternative.
