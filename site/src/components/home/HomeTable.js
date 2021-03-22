@@ -9,7 +9,7 @@ import AddAppliBtn from "./AddAppliBtn";
 import RowExpand from "./RowExpand";
 
 export default function HomeTable() {
-  const packetSize = 1;
+  const packetSize = 100;
   const [data, setData] = useState(null);
   const [count, setCount] = useState(0);
   const [tableReady, setTableReady] = useState(false);

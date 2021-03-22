@@ -91,7 +91,7 @@ export default function RowExpand(props) {
 
           <CardContent>
             <Grid container spacing={2}>
-              <Grid item xs={4} component={Paper} variant="outlined">
+              <Grid item md={4} xs={12} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Application Details</ListSubheader>}>
                   <ExpandedListItems obj={ad(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} upd={props.upd} />
                 </List>
@@ -101,13 +101,13 @@ export default function RowExpand(props) {
                 </List>
               </Grid>
 
-              <Grid item xs={4} component={Paper} variant="outlined">
+              <Grid item md={4} xs={12} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Personal Information</ListSubheader>}>
                   <ExpandedListItems obj={pi(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} upd={props.upd} />
                 </List>
               </Grid>
 
-              <Grid item xs={4} component={Paper} variant="outlined">
+              <Grid item md={4} xs={12} component={Paper} variant="outlined">
                 <List dense subheader={<ListSubheader component="div">Education and Career</ListSubheader>}>
                   <ExpandedListItems obj={ec(props.rowdata)} editMode={editMode} appliID={props.rowdata._id} upd={props.upd} />
                 </List>
