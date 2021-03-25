@@ -1,4 +1,4 @@
-# User Manual
+# LGU-TK HRMO AppliDB User Manual
 
 ## System Architecture
 
