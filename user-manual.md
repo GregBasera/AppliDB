@@ -46,10 +46,12 @@ This project uses **MongoDB** as its backend, **Strapi** as its API server, and 
 | Visitor |        |  ✓   |        |        |                  |
 
 - When a new User signs in, he/she is considered as a _Visitor_ until an Admin changes his/her role.
+- There can be **multiple** _Admin_, _Staff_, and _Visitor_.
+- An _Admin_ can designate another _Admin_.
 
 ## Frontend and Controls (ReactJS)
 
-When configured correctly, the system could be seen in a browser with the link `http://<server-IP>:3080`. You can either `log-in` or `sign-up`.
+When configured correctly, the system could be seen in a browser with the link `http://<server-IP>:3080`. The system will run on mobile devices; however, the User Interface (_UI_) is optimized for devices with larger screens.
 
 ![login-page](./site/public/user-manual-imgs/login-page.png "login-page")
 
@@ -92,7 +94,7 @@ There are also a few controls and indicators in the bottom-right
 |   J    | Table Nav | Used to flip through table pages              |
 |   L    | Records   | The total number of records in the database   |
 |   M    | Showing   | Indicates what the table is currently showing |
-|   N    | Columns   | Choose the number of applicants shown at once |
+|   N    | Rows      | Choose the number of applicants shown at once |
 
 ---
 
@@ -122,3 +124,5 @@ This is the preferred action when **printing reports** and **archiving data** be
 
 - Be careful formatting fields that accepts the 'text' datatype (Ex. "Tagkawayan, Quezon" and "Tagkawayan Quezon" are considered different and would be rendered as 2 seperate options for filtering).
 - The _Print_ feature only prints the HTML version of the table. This can become problematic when printing several visible columns. See [Download](#download) for an alternative.
+- The sytem can struggle to serve multiple concurrent users (>15) especially if the database has grown to store a large amount of applicants (>20,000). In this case, **Archiving** and deleting data is recommended.
+- Filtering for _ranges_ (Age ranges, Date ranges, etc.) can not be done in the _Filter_ feature. You can use the _Sort_ feature to arrange records to either ascending or descending order, then only extract the necessary group.
