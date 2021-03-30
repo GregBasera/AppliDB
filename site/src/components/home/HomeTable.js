@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
 import MUIDataTable from "mui-datatables";
-import { CircularProgress, Tooltip, IconButton } from "@material-ui/core";
+import { CircularProgress, Tooltip, IconButton, Typography } from "@material-ui/core";
 import { Applicants } from "../../endpoints";
 import { headers } from "../../storages";
 import AddAppliBtn from "./AddAppliBtn";
 import RowExpand from "./RowExpand";
 
 export default function HomeTable() {
-  const packetSize = 100;
+  const packetSize = 1000;
   const [data, setData] = useState(null);
   const [count, setCount] = useState(0);
   const [tableReady, setTableReady] = useState(false);
@@ -25,7 +25,7 @@ export default function HomeTable() {
       });
 
     // get the first portion from Database
-    Axios.get(`${Applicants}?_start=${0}&_limit=${packetSize}&_sort=date_applied:DESC`, headers())
+    Axios.get(`${Applicants}?_start=${0}&_limit=${packetSize}&_sort=date_applied:DESC,lname:ASC`, headers())
       .then((res) => {
         setData(res.data);
       })
@@ -51,7 +51,8 @@ export default function HomeTable() {
   }, [data]);
 
   const bgFetch = async () => {
-    let suple = await Axios.get(`${Applicants}?_start=${data.length}&_limit=${packetSize}&_sort=date_applied:DESC`, headers());
+    console.log("fetch");
+    let suple = await Axios.get(`${Applicants}?_start=${data.length}&_limit=${packetSize}&_sort=date_applied:DESC,lname:ASC`, headers());
     setData([...data, ...suple.data]);
   };
 
@@ -74,6 +75,18 @@ export default function HomeTable() {
   };
 
   const columns = [
+    {
+      name: "_id",
+      label: "#",
+      options: {
+        filter: false,
+        customBodyRender: (rowIndex, dataIndex) => (
+          <Typography variant="subtitle2" style={{ color: "gray" }}>
+            {dataIndex.rowIndex + 1}
+          </Typography>
+        ),
+      },
+    },
     {
       name: "_id",
       label: "Applicant ID",
@@ -250,7 +263,7 @@ export default function HomeTable() {
       return <RowExpand colSpan={rowData.length + 1} rowdata={data[rowMeta.dataIndex]} del={handleDelete} upd={handleUpdate} />;
     },
     customToolbar: () => {
-      // return <AddAppliBtn add={handleNewRecord} />;
+      // show circular progress when pulling records
       return tableReady ? (
         <AddAppliBtn add={handleNewRecord} />
       ) : (

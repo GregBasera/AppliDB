@@ -1,4 +1,4 @@
-var baseurl = "http://192.168.50.47:1337";
+var baseurl = "http://192.168.50.36:1337";
 
 const Auth = baseurl + "/auth/local";
 const Register = baseurl + "/auth/local/register";

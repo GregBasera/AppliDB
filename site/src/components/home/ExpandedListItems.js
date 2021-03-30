@@ -35,6 +35,7 @@ const colNameLookUp = {
   position_held: "Position Held",
   serv_duration_mon: "Service Duration",
   eligibility: "Eligibilities",
+  encoder: "Encoder",
 };
 
 const edu_attain = [

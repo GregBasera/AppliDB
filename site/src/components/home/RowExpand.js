@@ -45,8 +45,8 @@ export default function RowExpand(props) {
   const ad = ({ date_applied, applying_for, referral, appli_status }) => {
     return { date_applied, applying_for, referral, appli_status };
   };
-  const md = ({ _id, createdAt, updatedAt }) => {
-    return { _id, createdAt, updatedAt };
+  const md = ({ _id, createdAt, updatedAt, encoder }) => {
+    return { _id, createdAt, updatedAt, encoder };
   };
   const pi = ({ lname, fname, mname, sex, civil_status, birthdate, age, birthplace, contact_num, email, resi_address, perm_address }) => {
     return { lname, fname, mname, sex, civil_status, birthdate, age, birthplace, contact_num, email, resi_address, perm_address };

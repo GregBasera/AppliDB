@@ -122,6 +122,7 @@ export default function AddAppliBtn(props) {
 
   const [creation, setCreation] = useState({ status: "hide", msg: {}, level: "error" });
   const handleAddAppli = () => {
+    setCreation({ status: "hide", msg: {}, level: "error" });
     let auth = JSON.parse(sessionStorage.getItem("auth"));
 
     Axios.post(Applicants, formData, {
