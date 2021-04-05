@@ -47,7 +47,7 @@ A Database system for the applicants of LGU-Tagkawayan Human Resource Management
 
 - Frontend is designed to pull **ALL** records from the backend upon launch and page reloads.
   - Pros: Easy Filtering, Sorting, Searching
-  - Cons: Requires good client-side hardware
+  - Cons: Slow load times
 
 ---
 
