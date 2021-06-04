@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
 import MUIDataTable from "mui-datatables";
+import { createMuiTheme, MuiThemeProvider, withStyles } from "@material-ui/core/styles";
 import { CircularProgress, Tooltip, IconButton, Typography } from "@material-ui/core";
 import { Applicants } from "../../endpoints";
 import { headers } from "../../storages";
@@ -13,6 +14,26 @@ export default function HomeTable() {
   const [data, setData] = useState(null);
   const [count, setCount] = useState(0);
   const [tableReady, setTableReady] = useState(false);
+
+  const getMuiTheme = () =>
+    createMuiTheme({
+      overrides: {
+        MUIDataTable: {
+          root: {},
+          paper: {
+            boxShadow: "none",
+          },
+        },
+        MUIDataTableBodyRow: {
+          root: {
+            "&:nth-child(odd)": {
+              backgroundColor: "#e1ecf2",
+            },
+          },
+        },
+        MUIDataTableBodyCell: {},
+      },
+    });
 
   useEffect(() => {
     // get the number of records on the Database
@@ -97,6 +118,7 @@ export default function HomeTable() {
       label: "Date Applied",
       options: {
         display: true,
+        filter: false,
         customBodyRender: (value, tableMeta, updateValue) => {
           return moment(value).format("MMM-DD-YYYY");
         },
@@ -157,7 +179,7 @@ export default function HomeTable() {
     {
       name: "age",
       label: "Age",
-      options: { display: true },
+      options: { display: true, filter: false },
     },
     {
       name: "birthplace",
@@ -276,7 +298,7 @@ export default function HomeTable() {
     },
     // Printing and Archiving
     downloadOptions: {
-      filename: `ApplicantDatabase-${moment().format("DD-MMM-YYYY")}`,
+      filename: `ApplicantDatabase-${moment().format("DD-MMM-YYYY_HH-mm")}.csv`,
       separator: ",",
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
@@ -288,5 +310,11 @@ export default function HomeTable() {
     },
   };
 
-  return data ? <MUIDataTable title={"Applicant List"} data={data} columns={columns} options={options} /> : <CircularProgress />;
+  return data ? (
+    <MuiThemeProvider theme={getMuiTheme()}>
+      <MUIDataTable title={"Applicant List"} data={data} columns={columns} options={options} />
+    </MuiThemeProvider>
+  ) : (
+    <CircularProgress />
+  );
 }
