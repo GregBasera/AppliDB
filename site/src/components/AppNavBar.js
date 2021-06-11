@@ -31,11 +31,22 @@ function accessPrivs(currPath) {
   return null;
 }
 
-export default function AppNavBar() {
+export default function AppNavBar(props) {
   const classes = useStyles();
   const [tab, setTab] = useState(0);
   const tabchange = (event, newValue) => {
     setTab(newValue);
+    switch (newValue) {
+      case 0:
+        props.changeTab("appli");
+        break;
+      case 1:
+        props.changeTab("jo");
+        break;
+      default:
+        props.changeTab("appli");
+        break;
+    }
   };
 
   let history = useHistory();

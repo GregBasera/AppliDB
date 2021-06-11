@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "job_orders",
+  "info": {
+    "name": "Job_Order",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "contract_start": {
+      "type": "date",
+      "required": true
+    },
+    "contract_ends": {
+      "type": "date",
+      "required": true
+    },
+    "isActive": {
+      "type": "boolean",
+      "required": true
+    },
+    "application_data": {
+      "type": "json"
+    },
+    "department": {
+      "model": "departments"
+    }
+  }
+}

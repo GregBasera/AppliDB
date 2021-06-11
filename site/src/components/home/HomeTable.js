@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import moment from "moment";
 import MUIDataTable from "mui-datatables";
-import { createMuiTheme, MuiThemeProvider, withStyles } from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { CircularProgress, Tooltip, IconButton, Typography } from "@material-ui/core";
 import { Applicants } from "../../endpoints";
 import { headers } from "../../storages";
@@ -18,12 +18,6 @@ export default function HomeTable() {
   const getMuiTheme = () =>
     createMuiTheme({
       overrides: {
-        MUIDataTable: {
-          root: {},
-          paper: {
-            boxShadow: "none",
-          },
-        },
         MUIDataTableBodyRow: {
           root: {
             "&:nth-child(odd)": {
@@ -31,7 +25,6 @@ export default function HomeTable() {
             },
           },
         },
-        MUIDataTableBodyCell: {},
       },
     });
 
@@ -72,7 +65,7 @@ export default function HomeTable() {
   }, [data]);
 
   const bgFetch = async () => {
-    console.log("fetch");
+    // console.log("fetch");
     let suple = await Axios.get(`${Applicants}?_start=${data.length}&_limit=${packetSize}&_sort=date_applied:DESC,lname:ASC`, headers());
     setData([...data, ...suple.data]);
   };
