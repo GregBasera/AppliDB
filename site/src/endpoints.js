@@ -6,5 +6,6 @@ const Register = baseurl + "/auth/local/register";
 const Applicants = baseurl + "/applicants";
 const Users = baseurl + "/users";
 const Roles = baseurl + "/users-permissions/roles";
+const Depts = baseurl + "/departments";
 
-export { Auth, Register, Applicants, Users, Roles };
+export { Auth, Register, Applicants, Users, Roles, Depts };

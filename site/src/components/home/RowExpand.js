@@ -149,7 +149,7 @@ export default function RowExpand(props) {
           </DialogActions>
         </Dialog>
 
-        <Export2JO open={openExportModal} setOpen={setOpenExportModal} />
+        <Export2JO open={openExportModal} setOpen={setOpenExportModal} rowData={props.rowdata} />
       </TableCell>
     </TableRow>
   );
