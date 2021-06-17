@@ -8,7 +8,6 @@ services:
   #     - PGID=1000
   #     - TZ=Asia/Manila
   #   volumes:
-  #     - ./nginx:/config
   #     - ./site/build:/config/www
   #   ports:
   #     - 3080:80

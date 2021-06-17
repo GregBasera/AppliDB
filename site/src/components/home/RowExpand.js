@@ -25,8 +25,6 @@ import { Applicants } from "../../endpoints";
 import Alert from "@material-ui/lab/Alert";
 import ExpandedListItems from "./ExpandedListItems";
 import DeleteIcon from "@material-ui/icons/Delete";
-import KeyboardTabIcon from "@material-ui/icons/KeyboardTab";
-import Export2JO from "./joTab/Export2JO";
 
 // function accessPrivsDelete() {
 //   let auth = JSON.parse(sessionStorage.getItem("auth"));
@@ -78,20 +76,11 @@ export default function RowExpand(props) {
       });
   };
 
-  const [openExportModal, setOpenExportModal] = useState(false);
-  const exportToJO = () => {
-    console.log(props.rowdata);
-    setOpenExportModal(!openExportModal);
-  };
-
   return (
     <TableRow style={{ backgroundColor: "#9CA3AF" }}>
       <TableCell colSpan={props.colSpan}>
         <Card variant="outlined">
           <CardActions>
-            <Button variant="outlined" color="primary" startIcon={<KeyboardTabIcon />} onClick={() => exportToJO()}>
-              transfer to JO
-            </Button>
             {accessPrivs() ? (
               <Button variant="outlined" color="secondary" startIcon={<DeleteIcon />} onClick={() => setDelModalOpen(true)}>
                 Delete this Applicant
@@ -148,8 +137,6 @@ export default function RowExpand(props) {
             </Button>
           </DialogActions>
         </Dialog>
-
-        <Export2JO open={openExportModal} setOpen={setOpenExportModal} rowData={props.rowdata} />
       </TableCell>
     </TableRow>
   );

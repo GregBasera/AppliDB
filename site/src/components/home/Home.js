@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import HomeTable from "./HomeTable";
-import HomeJO from "./joTab/HomeJO";
 import AppNavBar from "../AppNavBar";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,8 +20,6 @@ function tabDispenser(ident) {
   switch (ident) {
     case "appli":
       return <HomeTable />;
-    case "jo":
-      return <HomeJO />;
     default:
       return <HomeTable />;
   }

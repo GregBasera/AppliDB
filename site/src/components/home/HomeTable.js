@@ -111,7 +111,6 @@ export default function HomeTable() {
       label: "Date Applied",
       options: {
         display: true,
-        filter: false,
         customBodyRender: (value, tableMeta, updateValue) => {
           return moment(value).format("MMM-DD-YYYY");
         },
@@ -172,7 +171,7 @@ export default function HomeTable() {
     {
       name: "age",
       label: "Age",
-      options: { display: true, filter: false },
+      options: { display: true },
     },
     {
       name: "birthplace",
@@ -291,7 +290,7 @@ export default function HomeTable() {
     },
     // Printing and Archiving
     downloadOptions: {
-      filename: `ApplicantDatabase-${moment().format("DD-MMM-YYYY_HH-mm")}.csv`,
+      filename: `ApplicantDatabase-${moment().format("DD-MMM-YYYY")}.csv`,
       separator: ",",
       filterOptions: { useDisplayedColumnsOnly: true, useDisplayedRowsOnly: true },
     },
