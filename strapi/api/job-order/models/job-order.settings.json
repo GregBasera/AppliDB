@@ -11,23 +11,21 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "contract_start": {
-      "type": "date",
+    "name": {
+      "type": "string",
       "required": true
     },
-    "contract_ends": {
-      "type": "date",
+    "sex": {
+      "type": "enumeration",
+      "enum": [
+        "Male",
+        "Female"
+      ],
       "required": true
     },
-    "isActive": {
-      "type": "boolean",
+    "service_history": {
+      "type": "json",
       "required": true
-    },
-    "application_data": {
-      "type": "json"
-    },
-    "department": {
-      "model": "departments"
     }
   }
 }
