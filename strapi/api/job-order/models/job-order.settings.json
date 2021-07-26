@@ -26,6 +26,18 @@
     "service_history": {
       "type": "json",
       "required": true
+    },
+    "birthdate": {
+      "type": "date",
+      "required": true
+    },
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "birthplace": {
+      "type": "string",
+      "required": true
     }
   }
 }
