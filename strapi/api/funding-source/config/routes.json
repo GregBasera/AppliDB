@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/funding-sources",
+      "handler": "funding-source.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/funding-sources/count",
+      "handler": "funding-source.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/funding-sources/:id",
+      "handler": "funding-source.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/funding-sources",
+      "handler": "funding-source.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/funding-sources/:id",
+      "handler": "funding-source.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/funding-sources/:id",
+      "handler": "funding-source.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

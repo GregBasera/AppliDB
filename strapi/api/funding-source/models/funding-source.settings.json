@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "funding_sources",
+  "info": {
+    "name": "Funding_Source"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
