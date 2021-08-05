@@ -1,36 +1,36 @@
 version: "3"
 services:
-  # nginx_1:
-  #   image: ghcr.io/linuxserver/nginx
-  #   container_name: AppliDB-react
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Asia/Manila
-  #   volumes:
-  #     - ./site/build:/config/www
-  #   ports:
-  #     - 3080:80
-  #     - 3443:443
-  #   depends_on:
-  #     - strapi
-  #   restart: unless-stopped
+  appliDB:
+    image: ghcr.io/linuxserver/nginx
+    container_name: AppliDB-react
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+    volumes:
+      - ./site/build:/config/www
+    ports:
+      - 3080:80
+      - 3443:443
+    depends_on:
+      - strapi
+    restart: unless-stopped
 
-  # nginx_2:
-  #   image: ghcr.io/linuxserver/nginx
-  #   container_name: JODB-react
-  #   environment:
-  #     - PUID=1000
-  #     - PGID=1000
-  #     - TZ=Asia/Manila
-  #   volumes:
-  #     - /home/greg/Documents/jo-db/build:/config/www
-  #   ports:
-  #     - 3081:80
-  #     - 3444:443
-  #   depends_on:
-  #     - strapi
-  #   restart: unless-stopped
+  joDB:
+    image: ghcr.io/linuxserver/nginx
+    container_name: JODB-react
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Manila
+    volumes:
+      - /home/greg/Documents/jo-db/build:/config/www
+    ports:
+      - 3081:80
+      - 3444:443
+    depends_on:
+      - strapi
+    restart: unless-stopped
 
   strapi:
     image: strapi/strapi
