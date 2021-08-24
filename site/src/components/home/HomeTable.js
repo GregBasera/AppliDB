@@ -128,7 +128,7 @@ export default function HomeTable() {
         filter: false,
         display: true,
         customBodyRender: (value, tableMeta, updateValue) => {
-          return `${value}, ${tableMeta.rowData[5]} ${tableMeta.rowData[6]}`;
+          return `${value}, ${tableMeta.rowData[6]} ${tableMeta.rowData[7]}`;
         },
       },
     },
